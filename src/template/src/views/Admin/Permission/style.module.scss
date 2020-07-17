@@ -1,0 +1,10 @@
+@import '@/assets/styles/mixins.scss';
+
+.content {
+  padding: rem(20);
+  background-color: #f6f8fa;
+}
+
+:global(.ant-table-small) {
+  border: 0 !important;
+}

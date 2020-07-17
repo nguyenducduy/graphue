@@ -1,0 +1,47 @@
+@import '~bootstrap-css-only/css/bootstrap.min.css';
+@import 'styles/Antd/antd.cleanui';
+@import 'styles/Bootstrap/bootstrap.cleanui';
+@import 'styles/CleanUI/cleanui';
+@import 'styles/Rcdrawer/rcdrawer.cleanui';
+@import 'styles/Nprogress/nprogress.cleanui';
+@import 'styles/PerfectScrollbar/perfectscrollbar.cleanui';
+
+body {
+  background-color: #f6f8fa;
+
+  .box-border-blue {
+    border: 1px solid #c8e1ff;
+    border-radius: 6px;
+    background-color: #f1f8ff;
+  }
+
+  .box-white {
+    border-radius: 6px;
+    background-color: #fff;
+    padding: 16px;
+  }
+
+  .anticon {
+    vertical-align: 0.05em !important;
+  }
+
+  .ant-tooltip {
+    font-size: 12px !important;
+  }
+
+  .ant-tooltip-inner {
+    min-height: 25px !important;
+    padding: 2px 6px !important;
+  }
+
+  .drawer-footer {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    border-top: 1px solid #e9e9e9;
+    padding: 10px 16px;
+    background: #fff;
+    text-align: right;
+  }
+}

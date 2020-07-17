@@ -1,0 +1,20 @@
+@import '@/assets/styles/mixins.scss';
+
+.breadcrumbs {
+  margin-bottom: rem(10);
+  padding-bottom: rem(10);
+}
+
+.path {
+  font-size: rem(16);
+  color: $black;
+}
+
+.arrow {
+  display: inline-block;
+  margin: 0 rem(10);
+  &:after {
+    display: inline-block;
+    content: '/';
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "items": [
+    {
+      "title": "Thành viên",
+      "key": "adminUser",
+      "icon": "fa fa-users",
+      "children": [
+        {
+          "title": "Danh sách",
+          "key": "adminUser-userList",
+          "url": "/admin/user"
+        },
+        {
+          "title": "Nhóm",
+          "key": "adminUser-groupList",
+          "url": "/admin/group"
+        },
+        {
+          "title": "Quyền",
+          "key": "adminUser-permissionList",
+          "url": "/admin/permission"
+        }
+      ]
+    },
+    {
+      "title": "Project",
+      "key": "adminProject",
+      "url": "/admin/project",
+      "icon": "fa fa-asterisk"
+    },
+    {
+      "title": "Spider jobs",
+      "key": "adminTask",
+      "url": "/admin/task?sort=id.descend",
+      "icon": "fa fa-tasks"
+    }
+  ]
+}
