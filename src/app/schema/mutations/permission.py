@@ -1,6 +1,6 @@
 import graphene
 from app import db
-from app.model.permission import Permission
+from app.model import Permission
 from app.schema.nodes import PermissionNode
 from flask_babel import _
 

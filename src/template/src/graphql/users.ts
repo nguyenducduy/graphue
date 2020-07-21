@@ -1,6 +1,6 @@
 import gql from 'graphql-tag'
 import { USER_FRAGMENT } from './fragment/user'
-import { MENU_FRAGMENT } from './fragment/menu'
+import { NESTED_MENU_FRAGMENT } from './fragment/menu'
 
 export const COUNT_USER = gql`
   query listUser {
@@ -73,14 +73,14 @@ export const LOGIN_BY_EMAIL = gql`
       user {
         ...user
         menu {
-          ...menu
+          ...nested_menu
         }
       }
       token
     }
   }
   ${USER_FRAGMENT}
-  ${MENU_FRAGMENT}
+  ${NESTED_MENU_FRAGMENT}
 `
 
 export const LOGOUT_USER = gql`
@@ -124,14 +124,14 @@ export const CREATE_FROM_GOOGLE_USER = gql`
       user {
         ...user
         menu {
-          ...menu
+          ...nested_menu
         }
       }
       token
     }
   }
   ${USER_FRAGMENT}
-  ${MENU_FRAGMENT}
+  ${NESTED_MENU_FRAGMENT}
 `
 
 export const LIST_STATUS_USER = gql`

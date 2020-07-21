@@ -1,7 +1,6 @@
 import graphene
 from app import db
-from app.model.group import Group
-from app.model.permission import Permission
+from app.model import Group, Permission, Menu
 from app.schema.nodes import GroupNode
 from flask_babel import _
 
@@ -94,6 +93,41 @@ class GrantPermission(graphene.Mutation):
         db.session.commit()
 
         return GrantPermission(granted=True)
+
+
+class AssignMenu(graphene.Mutation):
+    class Arguments:
+        id = graphene.Int(required=True)
+        menus = graphene.List(graphene.String, required=True)
+
+    assigned = graphene.Boolean()
+
+    def mutate(self, info, **kwargs):
+        myGroup = Group.query.get(kwargs.get('id'))
+        if not myGroup:
+            raise Exception(_('Group not found'))
+
+        currentMenus = []
+        for menu in myGroup.menus:
+            currentMenus.append(menu.id)
+        print(currentMenus)
+
+        # add new menu
+        for menuId in kwargs.get('menus'):
+            if menuId not in currentMenus:
+                myMenu = Menu.query.get(menuId)
+                myGroup.menus.append(myMenu)
+
+        # remove old menu which are not include in new menu
+        for menuId in currentMenus:
+            if menuId not in kwargs.get('menus'):
+                myMenu = Menu.query.get(menuId)
+                if myMenu.name != 'Root':
+                    myGroup.menus.remove(myMenu)
+
+        db.session.commit()
+
+        return AssignMenu(assigned=True)
 
 
 def save(data):

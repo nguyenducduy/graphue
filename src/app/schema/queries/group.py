@@ -1,6 +1,6 @@
 import graphene
 from graphene_sqlalchemy_filter import FilterSet
-from app.model.group import Group
+from app.model import Group
 from app.schema.nodes import GroupNode, PermissionNode
 
 

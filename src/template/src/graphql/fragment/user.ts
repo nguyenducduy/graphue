@@ -17,6 +17,9 @@ export const USER_FRAGMENT = gql`
       permissions {
         name
       }
+      menus {
+        id
+      }
     }
     status {
       text

@@ -13,6 +13,7 @@ body {
     border: 1px solid #c8e1ff;
     border-radius: 6px;
     background-color: #f1f8ff;
+    padding: 16px;
   }
 
   .box-white {
@@ -43,5 +44,10 @@ body {
     padding: 10px 16px;
     background: #fff;
     text-align: right;
+  }
+
+  .ant-drawer-header {
+    background-color: #e6f7ff;
+    border-bottom: 1px solid #e9e9e9;
   }
 }

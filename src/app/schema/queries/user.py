@@ -1,7 +1,6 @@
 import graphene
 from graphene_sqlalchemy_filter import FilterSet
-from app.model.user import User
-from app.model.group import Group
+from app.model import User, Group
 from app.schema.nodes import UserNode, GroupNode, CommonDictNode
 
 

@@ -49,6 +49,13 @@ const routes: Array<RouteConfig> = [
           title: `${parts[0]} - Group`
         },
         component: () => import("../views/Admin/Group/index.vue")
+      },
+      {
+        path: "/admin/menu",
+        meta: {
+          title: `${parts[0]} - Menu`
+        },
+        component: () => import("../views/Admin/Menu/index.vue")
       }
     ]
   },

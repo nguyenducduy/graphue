@@ -15,7 +15,7 @@
         :columns="columns"
         :pagination="false"
         size="small"
-        :rowKey="record => record.node.id"
+        :rowKey="(record) => record.node.id"
         @change="onChange"
         :loading="loading"
       >
@@ -28,7 +28,8 @@
               size="small"
               class="mr-2"
               @click="$bus.$emit('permissions.edit.show', record.node.id)"
-            >Edit</a-button>
+              >Edit</a-button
+            >
           </Can>
           <Can I="deletePermission">
             <d-button size="small" type="link" store="permissions" :id="record.node.id"></d-button>
@@ -45,122 +46,122 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Watch } from "vue-property-decorator";
-import { getVariables, createUrl, initQs } from "@/helper/utils";
-import Pagination from "@/components/LayoutComponents/Pagination/index.vue";
-import { State, Action } from "vuex-class";
+import { Vue, Component, Watch } from 'vue-property-decorator'
+import { getVariables, createUrl, initQs } from '@/helper/utils'
+import Pagination from '@/components/LayoutComponents/Pagination/index.vue'
+import { State, Action } from 'vuex-class'
 
 @Component({
-  name: "permission-items",
+  name: 'permission-items',
   components: {
-    Pagination
-  }
+    Pagination,
+  },
 })
 export default class PermissionItems extends Vue {
-  @Watch("$route") _routeChange() {
-    this.__init();
+  @Watch('$route') _routeChange() {
+    this.__init()
   }
-  @Action("permissions/fetchAll") fetchAll;
-  @Action("permissions/count") count;
-  @State(state => state.permissions.items) items;
-  @State(state => state.permissions.total) total;
+  @Action('permissions/fetchAll') fetchAll
+  @Action('permissions/count') count
+  @State((state) => state.permissions.items) items
+  @State((state) => state.permissions.total) total
 
   //loading state
-  loading: boolean = false;
+  loading: boolean = false
 
   //filter
-  sortedInfo: any = null;
-  filteredInfo: any = null;
+  sortedInfo: any = null
+  filteredInfo: any = null
   searchInInfo: any = [
-    { name: "Name", field: "name" },
-    { name: "Description", field: "description" }
-  ];
+    { name: 'Name', field: 'name' },
+    { name: 'Description', field: 'description' },
+  ]
 
   //pagination
   pagination: any = {
-    size: "small",
+    size: 'small',
     current: 1,
-    pageSize: 30
-  };
+    pageSize: 30,
+  }
 
   //table properties
   get columns() {
-    let { sortedInfo, filteredInfo } = this;
-    sortedInfo = sortedInfo || {};
-    filteredInfo = filteredInfo || {};
+    let { sortedInfo, filteredInfo } = this
+    sortedInfo = sortedInfo || {}
+    filteredInfo = filteredInfo || {}
 
     const columns: any = [
       {
-        title: "#",
-        dataIndex: "node.id",
-        key: "id", // sort with field in model
+        title: '#',
+        dataIndex: 'node.id',
+        key: 'id', // sort with field in model
         sorter: true,
-        sortOrder: sortedInfo.columnKey === "id" && sortedInfo.order,
-        scopedSlots: { customRender: "_id" }
+        sortOrder: sortedInfo.columnKey === 'id' && sortedInfo.order,
+        scopedSlots: { customRender: '_id' },
       },
       {
-        title: "Tên (Query/Mutation)",
-        dataIndex: "node.name",
-        key: "name", // sort with field in model
+        title: 'Tên (Query/Mutation)',
+        dataIndex: 'node.name',
+        key: 'name', // sort with field in model
         sorter: true,
-        sortOrder: sortedInfo.columnKey === "name" && sortedInfo.order,
-        scopedSlots: { customRender: "_name" }
+        sortOrder: sortedInfo.columnKey === 'name' && sortedInfo.order,
+        scopedSlots: { customRender: '_name' },
       },
       {
-        title: "Mô tả",
-        dataIndex: "node.description",
-        scopedSlots: { customRender: "_description" }
+        title: 'Mô tả',
+        dataIndex: 'node.description',
+        scopedSlots: { customRender: '_description' },
       },
       {
-        align: "right",
-        scopedSlots: { customRender: "_actions" }
-      }
-    ];
+        align: 'right',
+        scopedSlots: { customRender: '_actions' },
+      },
+    ]
 
-    return columns;
+    return columns
   }
 
   //table pagination event
   onChange(pagination, filters, sorter) {
-    this.filteredInfo = filters;
-    this.sortedInfo = sorter;
+    this.filteredInfo = filters
+    this.sortedInfo = sorter
 
     this.$router.push(`?
       ${createUrl(this.sortedInfo, this.filteredInfo)}
-    `);
+    `)
   }
 
   beforeMount() {
-    this.__init();
+    this.__init()
   }
 
-  mounted() {
-    this.$bus.$on("permissions.refresh", () => {
-      this.__init();
-    });
+  created() {
+    this.$bus.$on('permissions.refresh', () => {
+      this.__init()
+    })
   }
 
   async __init() {
-    this.loading = true;
+    this.loading = true
     //if not total, get total to calculate page
     if (this.total === 0) {
-      await this.count();
+      await this.count()
     }
 
-    const { page } = this.$route.query;
-    const currentPage: any = typeof page !== "undefined" ? page : 1;
-    const variables: any = getVariables(this, currentPage);
-    const { currentSort, currentFilters } = initQs();
-    this.sortedInfo = currentSort;
-    this.filteredInfo = currentFilters;
+    const { page } = this.$route.query
+    const currentPage: any = typeof page !== 'undefined' ? page : 1
+    const variables: any = getVariables(this, currentPage)
+    const { currentSort, currentFilters } = initQs()
+    this.sortedInfo = currentSort
+    this.filteredInfo = currentFilters
 
     try {
-      await this.fetchAll(variables);
+      await this.fetchAll(variables)
 
-      this.loading = false;
-      this.$bus.$emit("bc.total", this.total);
+      this.loading = false
+      this.$bus.$emit('bc.total', this.total)
     } catch (error) {
-      this.loading = false;
+      this.loading = false
     }
   }
 }

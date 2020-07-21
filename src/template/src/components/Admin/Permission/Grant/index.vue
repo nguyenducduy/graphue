@@ -12,41 +12,29 @@
       >
         <div class="row">
           <div class="col-lg-12">
-            <a-input-search
-              placeholder="Search by query/mutation or description"
-              @search="onSearch"
-              class="mb-2"
-            />
+            <a-input-search placeholder="Search by query/mutation or description" @search="onSearch" class="mb-2" />
 
             <a-table
               class="mb-5"
               :pagination="{
                 pageSize: 1000,
-                hideOnSinglePage: true
+                hideOnSinglePage: true,
               }"
               :rowSelection="{
                 selectedRowKeys: selectedRowKeys,
-                onChange: onSelectChange
+                onChange: onSelectChange,
               }"
               :dataSource="permissionItems"
               :columns="columns"
               size="small"
-              :rowKey="record => record.node.id"
+              :rowKey="(record) => record.node.id"
               :loading="loading"
             ></a-table>
           </div>
         </div>
-
         <div class="drawer-footer">
           <a-button class="mr-2" @click="visible = false">Cancel</a-button>
-          <a-button
-            class="mr-2"
-            icon="save"
-            type="primary"
-            @click="onSubmit"
-            :loading="loading"
-            >Save</a-button
-          >
+          <a-button class="mr-2" icon="save" type="primary" @click="onSubmit" :loading="loading">Save</a-button>
         </div>
       </a-drawer>
     </Can>
@@ -54,113 +42,108 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
-import { Action, State } from "vuex-class";
+import { Vue, Component } from 'vue-property-decorator'
+import { Action, State } from 'vuex-class'
 
 @Component({
-  name: "permission-grant-drawer"
+  name: 'permission-grant-drawer',
 })
 export default class PermissionGrant extends Vue {
-  @Action("permissions/fetchAll") fetchAllPermission;
-  @Action("groups/fetchOne") fetchGroup;
-  @Action("groups/grantPermission") grantPermission;
-  @State(state => state.permissions.items) permissionItems;
-  @State(state => state.groups.item) group;
+  @Action('permissions/fetchAll') fetchAllPermission
+  @Action('groups/fetchOne') fetchGroup
+  @Action('groups/grantPermission') grantPermission
+  @State((state) => state.permissions.items) permissionItems
+  @State((state) => state.groups.item) group
 
-  visible: boolean = false;
-  form: any = {};
-  loading: boolean = false;
+  visible: boolean = false
+  form: any = {}
+  loading: boolean = false
+
+  selectedRowKeys: any = []
+  groupId: number = 0
 
   get columns() {
     const columns: any = [
       {
-        title: "#",
-        dataIndex: "node.id",
-        scopedSlots: {
-          customRender: "_id"
-        }
+        title: '#',
+        dataIndex: 'node.id',
+        scopedSlots: { customRender: '_id' },
       },
       {
-        title: "Tên (Query/Mutation)",
-        dataIndex: "node.name",
-        scopedSlots: {
-          customRender: "_name"
-        }
+        title: 'Tên (Query/Mutation)',
+        dataIndex: 'node.name',
+        scopedSlots: { customRender: '_name' },
       },
       {
-        title: "Mô tả",
-        dataIndex: "node.description",
-        scopedSlots: {
-          customRender: "_description"
-        }
-      }
-    ];
+        title: 'Mô tả',
+        dataIndex: 'node.description',
+        scopedSlots: { customRender: '_description' },
+      },
+    ]
 
-    return columns;
+    return columns
   }
 
-  selectedRowKeys: any = [];
-  groupId: number = 0;
-
   get hasSelected() {
-    return this.selectedRowKeys.length > 0;
+    return this.selectedRowKeys.length > 0
   }
 
   onSelectChange(selectedRowKeys) {
-    this.selectedRowKeys = selectedRowKeys;
+    this.selectedRowKeys = selectedRowKeys
   }
 
   onSearch(value) {
-    console.log(value);
+    console.log(value)
   }
 
   async onSubmit(e) {
-    e.preventDefault();
+    e.preventDefault()
 
     try {
-      this.loading = true;
+      this.loading = true
 
       await this.grantPermission({
         id: this.group.id,
-        permissions: this.selectedRowKeys
-      });
+        permissions: this.selectedRowKeys,
+      })
 
       //update group state
-      await this.fetchGroup(this.group.id);
+      await this.fetchGroup(this.group.id)
 
       this.$notification.success({
-        message: "Gán quyền",
+        message: 'Gán quyền',
         description: `Gán quyền cho nhóm "${this.group.screenName}" thành công`,
-        placement: "bottomLeft"
-      });
+      })
 
-      this.loading = false;
+      this.loading = false
     } catch (error) {
-      this.loading = false;
+      this.loading = false
     }
   }
 
-  async mounted() {
-    this.$bus.$on("permissions.grant.show", async groupId => {
-      this.loading = true;
-      this.selectedRowKeys = [];
-      this.groupId = groupId;
+  created() {
+    this.$bus.$on('permissions.grant.show', async (groupId) => {
+      this.loading = true
+      this.selectedRowKeys = []
+      this.groupId = groupId
 
       // get all permissions
       await this.fetchAllPermission({
         first: 1000,
-        last: 1000
-      });
-      // get info of selected group
-      await this.fetchGroup(groupId);
-      // map selected permission
-      this.group.permissions.map(perm => {
-        this.selectedRowKeys.push(perm.id);
-      });
+        last: 1000,
+      })
 
-      this.loading = false;
-      this.visible = true;
-    });
+      // get info of selected group
+      await this.fetchGroup(groupId)
+
+      // map selected permission
+      this.group.permissions.map((perm) => {
+        this.selectedRowKeys.push(perm.id)
+      })
+
+      this.loading = false
+      this.visible = true
+    })
   }
 }
 </script>

@@ -6,7 +6,7 @@ import settings from "./modules/settings";
 import users from "./modules/users";
 import permissions from "./modules/permissions";
 import groups from "./modules/groups";
-import * as Case from "case";
+import menus from "./modules/menus";
 
 // casl
 const TYPE_KEY = Symbol("resourceType");
@@ -61,7 +61,8 @@ export default new Vuex.Store({
     settings,
     users,
     permissions,
-    groups
+    groups,
+    menus
   },
   strict: process.env.NODE_ENV !== "production"
 });

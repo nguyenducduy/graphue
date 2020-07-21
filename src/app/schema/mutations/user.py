@@ -1,8 +1,7 @@
 import graphene
 from app import db
 from graphene_file_upload.scalars import Upload
-from app.model.user import User
-from app.model.blacklist_token import BlacklistToken
+from app.model import User, BlacklistToken
 from app.schema.nodes import UserNode
 from app.helper import downloadFromUrl
 import random
@@ -90,6 +89,7 @@ class LoginUser(graphene.Mutation):
         output = []
         for item in myUser.group.menus:
             output.append(item.drilldown_tree())
+
         myUser.menu = output[0]
 
         if myUser and myUser.check_password(kwargs.get('password')):

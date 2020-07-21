@@ -1,6 +1,6 @@
 import graphene
 from graphene_sqlalchemy_filter import FilterSet
-from app.model.permission import Permission
+from app.model import Permission
 from app.schema.nodes import PermissionNode
 
 

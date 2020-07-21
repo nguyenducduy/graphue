@@ -1,7 +1,7 @@
-import gql from "graphql-tag";
+import gql from 'graphql-tag'
 
-export const MENU_FRAGMENT = gql`
-  fragment menu on NestedMenuNode {
+export const NESTED_MENU_FRAGMENT = gql`
+  fragment nested_menu on NestedMenuNode {
     node {
       id
       name
@@ -31,4 +31,14 @@ export const MENU_FRAGMENT = gql`
       }
     }
   }
-`;
+`
+
+export const MENU_FRAGMENT = gql`
+  fragment menu on MenuNode {
+    id
+    name
+    path
+    icon
+    parentId
+  }
+`

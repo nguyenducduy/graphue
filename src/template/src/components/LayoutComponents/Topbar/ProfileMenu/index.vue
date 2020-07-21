@@ -63,7 +63,7 @@ export default class ProfileMenu extends Vue {
     this.$nprogress.start();
 
     try {
-      this.logOut();
+      await this.logOut();
 
       return (window.location.href = `
           ${window.location.protocol}//${window.location.hostname +

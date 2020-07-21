@@ -11,50 +11,53 @@
     <group-items />
     <group-edit-drawer />
     <permission-grant-drawer />
+    <assign-menu-drawer />
   </div>
 </template>
 
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
-import Pagination from "@/components/LayoutComponents/Pagination/index.vue";
-import Breadcrumbs from "@/components/LayoutComponents/Breadcrumbs/index.vue";
-import GroupItems from "@/components/Admin/Group/Items/index.vue";
-import GroupAddDrawer from "@/components/Admin/Group/Add/index.vue";
-import GroupEditDrawer from "@/components/Admin/Group/Edit/index.vue";
-import PermissionGrantDrawer from "@/components/Admin/Permission/Grant/index.vue";
+import { Vue, Component } from 'vue-property-decorator'
+import Pagination from '@/components/LayoutComponents/Pagination/index.vue'
+import Breadcrumbs from '@/components/LayoutComponents/Breadcrumbs/index.vue'
+import GroupItems from '@/components/Admin/Group/Items/index.vue'
+import GroupAddDrawer from '@/components/Admin/Group/Add/index.vue'
+import GroupEditDrawer from '@/components/Admin/Group/Edit/index.vue'
+import PermissionGrantDrawer from '@/components/Admin/Permission/Grant/index.vue'
+import AssignMenuDrawer from '@/components/Admin/Menu/Assign/index.vue'
 
 @Component({
-  name: "group-page",
+  name: 'group-page',
   components: {
     Pagination,
     Breadcrumbs,
     GroupItems,
     GroupAddDrawer,
     GroupEditDrawer,
-    PermissionGrantDrawer
-  }
+    PermissionGrantDrawer,
+    AssignMenuDrawer,
+  },
 })
 export default class GroupPage extends Vue {
   bc: any = [
     {
-      title: "Thành viên",
-      url: "/admin/user",
-      active: false
+      title: 'Thành viên',
+      url: '/admin/user',
+      active: false,
     },
     {
-      title: "Group",
-      url: "",
-      active: false
+      title: 'Group',
+      url: '',
+      active: false,
     },
     {
-      title: "List",
-      url: "",
-      active: true
-    }
-  ];
+      title: 'List',
+      url: '',
+      active: true,
+    },
+  ]
 }
 </script>
 
 <style lang="scss" module>
-@import "./style.module.scss";
+@import './style.module.scss';
 </style>

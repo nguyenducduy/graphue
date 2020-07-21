@@ -25,8 +25,9 @@ DEFAULT_PERMISSION = [
     {'name': 'listUser', 'description': 'List all user in system'},
     {'name': 'getUser', 'description': 'Get a user info'},
     {'name': 'changePasswordUser',
-        'description': 'Change password of logged in user from admin panel'},
-    {'name': 'logoutUser', 'description': 'Logout current logged in user'},
+        'description': '(Required) Change password of logged in user from admin panel'},
+    {'name': 'logoutUser',
+        'description': '(Required) Logout current logged in user'},
     {'name': 'createGroup', 'description': 'Create group from admin panel'},
     {'name': 'updateGroup', 'description': 'Update group from admin panel'},
     {'name': 'deleteGroup', 'description': 'Delete group from admin panel'},
@@ -39,10 +40,11 @@ DEFAULT_PERMISSION = [
     {'name': 'deletePermission', 'description': 'Delete permission from admin panel'},
     {'name': 'listPermission', 'description': 'List all permission in system'},
     {'name': 'getPermission', 'description': 'Get a permission info'},
-    {'name': 'listMenu', 'description': 'List all menu in system'},
     {'name': 'createMenu', 'description': 'Create menu from admin panel'},
     {'name': 'updateMenu', 'description': 'Update menu from admin panel'},
     {'name': 'deleteMenu', 'description': 'Delete menu from admin panel'},
+    {'name': 'listMenu', 'description': 'List all menu in system'},
+    {'name': 'getMenu', 'description': 'Get a menu info'},
     {'name': 'updateLanguage', 'description': 'Update component language from admin panel'},
 ]
 
@@ -86,7 +88,8 @@ class Install(Resource):
         myUser = User(
             email=formData['email'],
             full_name=formData['fullName'],
-            password_hash=formData['password']
+            password_hash=formData['password'],
+            status=1
         )
         myUser.group = Group.query.filter_by(name='admin').first()
         db.session.add(myUser)
