@@ -4,13 +4,16 @@
       <div class="row mb-4">
         <div class="col-lg-6">
           <s-input :searchIn="searchInInfo" />
+          <a-button
+            class="ml-4"
+            type="dashed"
+            icon="reload"
+            @click.prevent="__init"
+            style="margin: 0 auto"
+          >Refresh</a-button>
         </div>
         <div class="col-lg-6 text-right">
-          <pagination
-            routePath="admin/permission"
-            :options="pagination"
-            :total="total"
-          />
+          <pagination routePath="admin/permission" :options="pagination" :total="total" />
         </div>
       </div>
       <a-table
@@ -23,9 +26,11 @@
         @change="onChange"
         :loading="loading"
       >
-        <a slot="_id" slot-scope="value" class="utils__link--underlined">{{
+        <a slot="_id" slot-scope="value" class="utils__link--underlined">
+          {{
           value
-        }}</a>
+          }}
+        </a>
         <span slot="_actions" slot-scope="record">
           <Can I="updatePermission">
             <a-button
@@ -34,26 +39,16 @@
               size="small"
               class="mr-2"
               @click="$bus.$emit('permissions.edit.show', record.node.id)"
-              >Edit</a-button
-            >
+            >Edit</a-button>
           </Can>
           <Can I="deletePermission">
-            <d-button
-              size="small"
-              type="link"
-              store="permissions"
-              :id="record.node.id"
-            ></d-button>
+            <d-button size="small" type="link" store="permissions" :id="record.node.id"></d-button>
           </Can>
         </span>
       </a-table>
       <div class="row mt-4">
         <div class="col-lg-12 text-right">
-          <pagination
-            routePath="admin/permission"
-            :options="pagination"
-            :total="total"
-          />
+          <pagination routePath="admin/permission" :options="pagination" :total="total" />
         </div>
       </div>
     </Can>
@@ -73,6 +68,9 @@ import { State, Action } from "vuex-class";
   }
 })
 export default class PermissionItems extends Vue {
+  @Watch("$store.state.rules") permissionChange() {
+    this.__init();
+  }
   @Watch("$route") _routeChange() {
     this.__init();
   }

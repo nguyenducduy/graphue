@@ -94,6 +94,14 @@ class GrantPermission(graphene.Mutation):
 
         db.session.commit()
 
+        # emit event "grant_permission_change"
+        accessPermissions = []
+        [accessPermissions.append({"name": item.name})
+         for item in myGroup.permissions]
+        socketio = SocketIO(message_queue=current_app.config['REDIS_URI'])
+        socketio.emit('grant_permission_change', data=(
+            myGroup.id, accessPermissions))
+
         return GrantPermission(granted=True)
 
 

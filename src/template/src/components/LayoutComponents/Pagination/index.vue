@@ -7,6 +7,7 @@
     :showQuickJumper="options.showQuickJumper"
     hideOnSinglePage
     @change="onPageChange"
+    style="display: inline;"
   />
 </template>
 

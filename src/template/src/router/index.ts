@@ -135,7 +135,7 @@ router.beforeEach((to, from, next) => {
     store.commit('SET_ALL_MENU', allMenus)
 
     // update ability casl
-    store.commit('SET_ABILITY', loggedUser.group.permissions)
+    store.commit('SET_ABILITY', accessPermission)
 
     next()
   } else {

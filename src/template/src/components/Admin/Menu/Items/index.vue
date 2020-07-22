@@ -7,14 +7,15 @@
             <template slot="description">
               - Click on
               <strong>Category name</strong> to modify selected category.
-              <br />- Right on <strong>Category name</strong> to
+              <br />- Right on
+              <strong>Category name</strong> to
               <strong class="text-primary">
                 <a-icon type="plus" />Add new Category
               </strong>
               inside selected category or
               <strong class="text-danger">
-                <a-icon type="delete" />Delete selected category </strong
-              >.
+                <a-icon type="delete" />Delete selected category
+              </strong>.
             </template>
           </a-alert>
           <a-tree
@@ -77,6 +78,12 @@ import MenuEditDrawer from "@/components/Admin/Menu/Edit/index.vue";
   }
 })
 export default class MenuItems extends Vue {
+  @Watch("$store.state.rules") permissionChange() {
+    this.__init();
+  }
+  @Watch("$route") _routeChange() {
+    this.__init();
+  }
   @Action("menus/fetchAll") fetchAll;
   @Action("menus/deleteOne") deleteOne;
   @State(state => state.menus.items) items;

@@ -4,13 +4,16 @@
       <div class="row mb-4">
         <div class="col-lg-6">
           <s-input :searchIn="searchInInfo" />
+          <a-button
+            class="ml-4"
+            type="dashed"
+            icon="reload"
+            @click.prevent="__init"
+            style="margin: 0 auto"
+          >Refresh</a-button>
         </div>
         <div class="col-lg-6 text-right">
-          <pagination
-            routePath="admin/group"
-            :options="pagination"
-            :total="total"
-          />
+          <pagination routePath="admin/group" :options="pagination" :total="total" />
         </div>
       </div>
       <a-table
@@ -23,26 +26,22 @@
         @change="onChange"
         :loading="loading"
       >
-        <a slot="_id" slot-scope="value" class="utils__link--underlined">
-          {{ value }}
-        </a>
+        <a slot="_id" slot-scope="value" class="utils__link--underlined">{{ value }}</a>
         <p slot="_name" slot-scope="value">{{ value }}</p>
         <a-tag
           slot="_screenName"
           slot-scope="record"
           :color="record.node.color"
-          >{{ record.node.screenName }}</a-tag
-        >
+        >{{ record.node.screenName }}</a-tag>
         <span slot="_actions" slot-scope="record">
           <Can I="grantPermissionGroup">
             <a-button
-              type="dashed"
+              type="primary"
               icon="safety-certificate"
               size="small"
               class="mr-2"
               @click="$bus.$emit('permissions.grant.show', record.node.id)"
-              >Grant permission</a-button
-            >
+            >Grant permission</a-button>
           </Can>
           <Can I="assignMenuGroup">
             <a-button
@@ -51,8 +50,7 @@
               size="small"
               class="mr-2"
               @click="$bus.$emit('menus.assign.show', record.node.id)"
-              >Assign menu</a-button
-            >
+            >Assign menu</a-button>
           </Can>
           <Can I="updateGroup">
             <a-button
@@ -61,8 +59,7 @@
               size="small"
               class="mr-2"
               @click="$bus.$emit('groups.edit.show', record.node.id)"
-              >Edit</a-button
-            >
+            >Edit</a-button>
           </Can>
           <Can I="deleteGroup">
             <d-button
@@ -77,11 +74,7 @@
       </a-table>
       <div class="row mt-4">
         <div class="col-lg-12 text-right">
-          <pagination
-            routePath="admin/group"
-            :options="pagination"
-            :total="total"
-          />
+          <pagination routePath="admin/group" :options="pagination" :total="total" />
         </div>
       </div>
     </Can>
@@ -101,6 +94,9 @@ import { State, Action } from "vuex-class";
   }
 })
 export default class GroupItems extends Vue {
+  @Watch("$store.state.rules") permissionChange() {
+    this.__init();
+  }
   @Watch("$route") _routeChange() {
     this.__init();
   }

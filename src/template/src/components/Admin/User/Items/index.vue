@@ -4,13 +4,16 @@
       <div class="row mb-4">
         <div class="col-lg-6">
           <s-input :searchIn="searchInInfo" />
+          <a-button
+            class="ml-4"
+            type="dashed"
+            icon="reload"
+            @click.prevent="__init"
+            style="margin: 0 auto"
+          >Refresh</a-button>
         </div>
         <div class="col-lg-6 text-right">
-          <pagination
-            routePath="admin/user"
-            :options="pagination"
-            :total="total"
-          />
+          <pagination routePath="admin/user" :options="pagination" :total="total" />
         </div>
       </div>
       <a-table
@@ -23,9 +26,11 @@
         :loading="loading"
         @change="onChange"
       >
-        <a slot="_id" slot-scope="value" class="utils__link--underlined">{{
+        <a slot="_id" slot-scope="value" class="utils__link--underlined">
+          {{
           value
-        }}</a>
+          }}
+        </a>
         <template slot="_avatar" slot-scope="record">
           <a-avatar
             v-if="record.node.avatar !== null"
@@ -37,22 +42,19 @@
             v-else
             size="small"
             :style="`backgroundColor: ${record.node.status.color}`"
-            >{{ record.node.fullName[0] }}</a-avatar
-          >
+          >{{ record.node.fullName[0] }}</a-avatar>
         </template>
         <template slot="_name" slot-scope="value">{{ value }}</template>
         <a-tag
           slot="_status"
           slot-scope="record"
           :color="record.node.status.color"
-          >{{ record.node.status.text }}</a-tag
-        >
+        >{{ record.node.status.text }}</a-tag>
         <a-tag
           slot="_group"
           slot-scope="record"
           :color="record.node.group.color"
-          >{{ record.node.group.screenName }}</a-tag
-        >
+        >{{ record.node.group.screenName }}</a-tag>
         <span slot="_actions" slot-scope="record">
           <Can I="updateUser">
             <a-button
@@ -61,26 +63,16 @@
               size="small"
               class="mr-2"
               @click="$bus.$emit('users.edit.show', record.node.id)"
-              >Edit</a-button
-            >
+            >Edit</a-button>
           </Can>
           <Can I="deleteUser">
-            <d-button
-              size="small"
-              type="link"
-              store="users"
-              :id="record.node.id"
-            ></d-button>
+            <d-button size="small" type="link" store="users" :id="record.node.id"></d-button>
           </Can>
         </span>
       </a-table>
       <div class="row mt-4">
         <div class="col-lg-12 text-right">
-          <pagination
-            routePath="admin/user"
-            :options="pagination"
-            :total="total"
-          />
+          <pagination routePath="admin/user" :options="pagination" :total="total" />
         </div>
       </div>
     </Can>
@@ -100,6 +92,9 @@ import { State, Action } from "vuex-class";
   }
 })
 export default class UserItems extends Vue {
+  @Watch("$store.state.rules") permissionChange() {
+    this.__init();
+  }
   @Watch("$route") _routeChange() {
     this.__init();
   }

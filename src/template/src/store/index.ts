@@ -24,10 +24,10 @@ export const mutations = {
   },
   SET_ABILITY(state, permission) {
     const { can, rules } = new AbilityBuilder()
+
     permission.map((perm) => {
       can(perm.name)
     })
-
     state.rules = rules
   },
   REMOVE_ABILITY(state) {
@@ -55,6 +55,9 @@ export const getters = {
   },
   allMenu(state) {
     return state.allMenus || null
+  },
+  accessPermission(state) {
+    return Vue.ls.get('Access-Permission') || null
   },
 }
 
