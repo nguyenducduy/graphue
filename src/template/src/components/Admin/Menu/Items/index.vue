@@ -6,11 +6,15 @@
           <a-alert message="Help" type="info" show-icon>
             <template slot="description">
               - Click on
-              <strong>Category name</strong> to modify selected category. <br />- Right on
-              <strong>Category name</strong> to
-              <strong class="text-primary"> <a-icon type="plus" />Add new Category </strong>
+              <strong>Category name</strong> to modify selected category.
+              <br />- Right on <strong>Category name</strong> to
+              <strong class="text-primary">
+                <a-icon type="plus" />Add new Category
+              </strong>
               inside selected category or
-              <strong class="text-danger"> <a-icon type="delete" />Delete selected category </strong>.
+              <strong class="text-danger">
+                <a-icon type="delete" />Delete selected category </strong
+              >.
             </template>
           </a-alert>
           <a-tree
@@ -60,96 +64,100 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Watch } from 'vue-property-decorator'
-import { State, Action } from 'vuex-class'
-import MenuAddDrawer from '@/components/Admin/Menu/Add/index.vue'
-import MenuEditDrawer from '@/components/Admin/Menu/Edit/index.vue'
+import { Vue, Component, Watch } from "vue-property-decorator";
+import { State, Action } from "vuex-class";
+import MenuAddDrawer from "@/components/Admin/Menu/Add/index.vue";
+import MenuEditDrawer from "@/components/Admin/Menu/Edit/index.vue";
 
 @Component({
-  name: 'menu-items',
+  name: "menu-items",
   components: {
     MenuAddDrawer,
-    MenuEditDrawer,
-  },
+    MenuEditDrawer
+  }
 })
 export default class MenuItems extends Vue {
-  @Action('menus/fetchAll') fetchAll
-  @Action('menus/deleteOne') deleteOne
-  @State((state) => state.menus.items) items
+  @Action("menus/fetchAll") fetchAll;
+  @Action("menus/deleteOne") deleteOne;
+  @State(state => state.menus.items) items;
 
   //loading state
-  loading: boolean = false
+  loading: boolean = false;
 
   //tree
-  selectedKeys: any = []
+  selectedKeys: any = [];
   replaceFields: any = {
-    children: 'children',
-    title: 'name',
-    key: 'id',
-  }
-  expandedKeys: any = []
+    children: "children",
+    title: "name",
+    key: "id"
+  };
+  expandedKeys: any = [];
 
   //context menu
-  selectedId: number = 0
-  selectedTitle: string = ''
+  selectedId: number = 0;
+  selectedTitle: string = "";
 
   async onSelect(keys, context) {
-    if ((this.$can as any)('updateMenu')) {
-      this.$bus.$emit('menus.create.close')
-      this.$bus.$emit('menus.edit.close')
-      this.$bus.$emit('menus.edit.show', context.node.eventKey, context.node.title)
+    if ((this.$can as any)("updateMenu")) {
+      this.$bus.$emit("menus.create.close");
+      this.$bus.$emit("menus.edit.close");
+      this.$bus.$emit(
+        "menus.edit.show",
+        context.node.eventKey,
+        context.node.title
+      );
     } else {
       this.$notification.error({
-        message: 'Menu',
-        description: 'Not permission to edit menu',
-      })
+        message: "Menu",
+        description: "Not permission to edit menu"
+      });
     }
   }
 
   onAddSelect() {
-    this.$bus.$emit('menus.create.close')
-    this.$bus.$emit('menus.edit.close')
-    this.$bus.$emit('menus.create.show', this.selectedId, this.selectedTitle)
+    this.$bus.$emit("menus.create.close");
+    this.$bus.$emit("menus.edit.close");
+    this.$bus.$emit("menus.create.show", this.selectedId, this.selectedTitle);
   }
 
   onContext(context) {
-    this.selectedKeys = []
-    this.selectedKeys.push(context.node.eventKey)
-    this.selectedId = context.node.eventKey
-    this.selectedTitle = context.node.title
+    this.selectedKeys = [];
+    this.selectedKeys.push(context.node.eventKey);
+    this.selectedId = context.node.eventKey;
+    this.selectedTitle = context.node.title;
   }
 
   beforeMount() {
-    this.__init()
+    this.__init();
   }
 
   created() {
-    this.$bus.$on('menus.refresh', () => {
-      this.__init()
-    })
+    this.$bus.$on("menus.refresh", () => {
+      this.__init();
+    });
   }
 
   async __init() {
-    this.loading = true
+    this.loading = true;
 
     try {
-      await this.fetchAll()
+      await this.fetchAll();
 
-      let ids = []
+      let ids = [];
       JSON.stringify(this.items, (key, value) => {
-        if (key === 'parentId') {
+        if (key === "parentId") {
           if (value !== null) {
-            ids.push(value.toString())
+            ids.push(value.toString());
           }
         }
-        return value
-      })
+        return value;
+      });
 
-      this.expandedKeys = [...new Set(ids)]
+      this.expandedKeys = [...new Set(ids)];
 
-      this.loading = false
+      this.loading = false;
     } catch (error) {
-      this.loading = false
+      this.loading = false;
     }
   }
 }

@@ -1,8 +1,16 @@
 <template>
   <div>
     <Can I="createPermission">
-      <a-button type="primary" icon="plus" @click="visible = true">Thêm</a-button>
-      <a-drawer title="Thêm quyền" placement="right" :visible="visible" width="25%" @close="visible = false">
+      <a-button type="primary" icon="plus" @click="visible = true"
+        >Thêm</a-button
+      >
+      <a-drawer
+        title="Thêm quyền"
+        placement="right"
+        :visible="visible"
+        width="25%"
+        @close="visible = false"
+      >
         <div class="row">
           <div class="col-lg-12">
             <a-form class="mt-3" :form="form" @submit="onSubmit">
@@ -17,10 +25,10 @@
                           rules: [
                             {
                               required: true,
-                              message: 'Vui lòng điền tên!',
-                            },
-                          ],
-                        },
+                              message: 'Vui lòng điền tên!'
+                            }
+                          ]
+                        }
                       ]"
                     />
                   </a-form-item>
@@ -35,10 +43,10 @@
                           rules: [
                             {
                               required: true,
-                              message: 'Vui lòng điền mô tả!',
-                            },
-                          ],
-                        },
+                              message: 'Vui lòng điền mô tả!'
+                            }
+                          ]
+                        }
                       ]"
                     />
                   </a-form-item>
@@ -50,7 +58,15 @@
 
         <div class="drawer-footer">
           <a-button class="mr-2" @click="visible = false">Cancel</a-button>
-          <a-button class="mr-2" icon="save" type="primary" @click="onSubmit" :loading="loading">Save</a-button>
+          <a-button
+            class="mr-2"
+            icon="save"
+            type="primary"
+            @click="onSubmit"
+            :loading="loading"
+            :disabled="hasErrors(form.getFieldsError())"
+            >Save</a-button
+          >
         </div>
       </a-drawer>
     </Can>
@@ -58,49 +74,51 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator'
-import { Action } from 'vuex-class'
+import { Vue, Component } from "vue-property-decorator";
+import { Action } from "vuex-class";
+import { hasErrors } from "@/helper/utils";
 
 @Component({
-  name: 'permission-add-drawer',
+  name: "permission-add-drawer"
 })
 export default class PermissionAdd extends Vue {
-  @Action('permissions/create') create
+  @Action("permissions/create") create;
 
-  visible: boolean = false
-  form: any = {}
-  loading: boolean = false
+  visible: boolean = false;
+  form: any = {};
+  loading: boolean = false;
+  hasErrors: any = hasErrors;
 
   onSubmit(e) {
-    e.preventDefault()
+    e.preventDefault();
 
     this.form.validateFields(async (err, values) => {
       if (!err) {
-        this.loading = true
+        this.loading = true;
 
         try {
           await this.create({
             name: values.name,
-            description: values.description,
-          })
+            description: values.description
+          });
 
           this.$notification.success({
-            message: 'Quyền',
-            description: `Thêm quyền "${values.name}" thành công.`,
-          })
+            message: "Quyền",
+            description: `Thêm quyền "${values.name}" thành công.`
+          });
 
-          this.form.resetFields()
-          this.loading = false
-          this.$bus.$emit('permissions.refresh')
+          this.form.resetFields();
+          this.loading = false;
+          this.$bus.$emit("permissions.refresh");
         } catch (error) {
-          this.loading = false
+          this.loading = false;
         }
       }
-    })
+    });
   }
 
   created() {
-    this.form = this.$form.createForm(this)
+    this.form = this.$form.createForm(this);
   }
 }
 </script>

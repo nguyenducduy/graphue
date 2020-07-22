@@ -76,7 +76,9 @@
             type="primary"
             @click="onSubmit"
             :loading="loading"
-          >Save</a-button>
+            :disabled="hasErrors(form.getFieldsError())"
+            >Save</a-button
+          >
         </div>
       </a-drawer>
     </Can>
@@ -86,6 +88,7 @@
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
 import { Action, State } from "vuex-class";
+import { hasErrors } from "@/helper/utils";
 
 @Component({
   name: "group-edit-drawer"
@@ -98,6 +101,7 @@ export default class GroupEdit extends Vue {
   visible: boolean = false;
   form: any = {};
   loading: boolean = false;
+  hasErrors: any = hasErrors;
   id: number = 0;
 
   onSubmit(e) {
@@ -127,6 +131,10 @@ export default class GroupEdit extends Vue {
         }
       }
     });
+  }
+
+  beforeMount() {
+    this.form = this.$form.createForm(this);
   }
 
   created() {

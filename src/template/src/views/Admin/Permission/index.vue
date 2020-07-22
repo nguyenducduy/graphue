@@ -1,12 +1,14 @@
 <template>
   <div :class="$style.content">
     <div class="row">
-      <div class="col-lg-6">
-        <breadcrumbs :data="bc" />
-      </div>
-      <div class="col-lg-6 text-right">
-        <permission-add-drawer />
-      </div>
+      <Can I="listPermission">
+        <div class="col-lg-6">
+          <breadcrumbs :data="bc" />
+        </div>
+        <div class="col-lg-6 text-right">
+          <permission-add-drawer />
+        </div>
+      </Can>
     </div>
     <permission-items />
     <permission-edit-drawer />

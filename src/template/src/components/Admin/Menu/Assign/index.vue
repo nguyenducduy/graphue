@@ -33,7 +33,8 @@
             type="primary"
             @click="onSubmit"
             :loading="loading"
-          >Save</a-button>
+            >Save</a-button
+          >
         </div>
       </a-drawer>
     </Can>

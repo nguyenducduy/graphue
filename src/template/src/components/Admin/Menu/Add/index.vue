@@ -10,7 +10,8 @@
         :wrap-style="{ position: 'absolute' }"
       >
         <template slot="title">
-          <a-icon type="plus" class="mr-2" /> Add child menu of menu <strong>{{ parentTitle }}</strong>
+          <a-icon type="plus" class="mr-2" />Add child menu of menu
+          <strong>{{ parentTitle }}</strong>
         </template>
         <div class="row">
           <div class="col-lg-12">
@@ -25,10 +26,10 @@
                           rules: [
                             {
                               required: true,
-                              message: 'Please input name',
-                            },
-                          ],
-                        },
+                              message: 'Please input name'
+                            }
+                          ]
+                        }
                       ]"
                     />
                   </a-form-item>
@@ -65,83 +66,75 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator'
-import { Action, State } from 'vuex-class'
-import { hasErrors } from '@/helper/utils'
+import { Vue, Component } from "vue-property-decorator";
+import { Action, State } from "vuex-class";
+import { hasErrors } from "@/helper/utils";
 
 @Component({
-  name: 'add-menu-drawer',
+  name: "add-menu-drawer"
 })
 export default class MenuAdd extends Vue {
-  @Action('menus/create') create
+  @Action("menus/create") create;
 
-  visible: boolean = false
-  form: any = {}
-  loading: boolean = false
-  hasErrors: any = hasErrors
+  visible: boolean = false;
+  form: any = {};
+  loading: boolean = false;
+  hasErrors: any = hasErrors;
 
-  parentId: number = 0
-  parentTitle: number = 0
+  parentId: number = 0;
+  parentTitle: number = 0;
 
   onClose() {
-    this.visible = false
-    this.form.resetFields()
+    this.visible = false;
+    this.form.resetFields();
   }
 
   onSubmit(e) {
-    e.preventDefault()
+    e.preventDefault();
 
     this.form.validateFields(async (err, values) => {
       if (!err) {
-        this.loading = true
+        this.loading = true;
 
         try {
           await this.create({
             name: values.name,
             path: values.path,
             icon: values.icon,
-            parentId: +this.parentId,
-          })
+            parentId: +this.parentId
+          });
 
           this.$notification.success({
-            message: 'Menu',
+            message: "Menu",
             description: `Add "${values.name}" successfully`,
-            placement: 'bottomRight',
-          })
+            placement: "bottomRight"
+          });
 
-          this.form.resetFields()
-          this.loading = false
-          this.visible = false
-          this.$bus.$emit('menus.refresh')
+          this.form.resetFields();
+          this.loading = false;
+          this.visible = false;
+          this.$bus.$emit("menus.refresh");
         } catch (error) {
-          this.loading = false
+          this.loading = false;
         }
       }
-    })
+    });
   }
 
   beforeMount() {
-    this.form = this.$form.createForm(this)
+    this.form = this.$form.createForm(this);
   }
 
   created() {
-    this.$bus.$on('menus.create.show', async (parentId, parentTitle) => {
-      this.parentId = parentId
-      this.parentTitle = parentTitle
-      this.visible = true
-      this.form.validateFields()
-    })
+    this.$bus.$on("menus.create.show", async (parentId, parentTitle) => {
+      this.parentId = parentId;
+      this.parentTitle = parentTitle;
+      this.visible = true;
+    });
 
-    this.$bus.$on('menus.create.close', () => {
-      this.visible = false
-    })
-  }
-
-  mounted() {
-    this.$nextTick(() => {
-      // To disabled submit button at the beginning.
-      this.form.validateFields()
-    })
+    this.$bus.$on("menus.create.close", () => {
+      this.visible = false;
+    });
   }
 }
 </script>

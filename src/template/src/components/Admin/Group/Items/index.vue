@@ -6,7 +6,11 @@
           <s-input :searchIn="searchInInfo" />
         </div>
         <div class="col-lg-6 text-right">
-          <pagination routePath="admin/group" :options="pagination" :total="total" />
+          <pagination
+            routePath="admin/group"
+            :options="pagination"
+            :total="total"
+          />
         </div>
       </div>
       <a-table
@@ -15,7 +19,7 @@
         :columns="columns"
         :pagination="false"
         size="small"
-        :rowKey="(record) => record.node.id"
+        :rowKey="record => record.node.id"
         @change="onChange"
         :loading="loading"
       >
@@ -23,7 +27,12 @@
           {{ value }}
         </a>
         <p slot="_name" slot-scope="value">{{ value }}</p>
-        <a-tag slot="_screenName" slot-scope="record" :color="record.node.color">{{ record.node.screenName }}</a-tag>
+        <a-tag
+          slot="_screenName"
+          slot-scope="record"
+          :color="record.node.color"
+          >{{ record.node.screenName }}</a-tag
+        >
         <span slot="_actions" slot-scope="record">
           <Can I="grantPermissionGroup">
             <a-button
@@ -68,7 +77,11 @@
       </a-table>
       <div class="row mt-4">
         <div class="col-lg-12 text-right">
-          <pagination routePath="admin/group" :options="pagination" :total="total" />
+          <pagination
+            routePath="admin/group"
+            :options="pagination"
+            :total="total"
+          />
         </div>
       </div>
     </Can>
@@ -76,118 +89,118 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Watch } from 'vue-property-decorator'
-import { getVariables, createUrl, initQs } from '@/helper/utils'
-import Pagination from '@/components/LayoutComponents/Pagination/index.vue'
-import { State, Action } from 'vuex-class'
+import { Vue, Component, Watch } from "vue-property-decorator";
+import { getVariables, createUrl, initQs } from "@/helper/utils";
+import Pagination from "@/components/LayoutComponents/Pagination/index.vue";
+import { State, Action } from "vuex-class";
 
 @Component({
-  name: 'group-items',
+  name: "group-items",
   components: {
-    Pagination,
-  },
+    Pagination
+  }
 })
 export default class GroupItems extends Vue {
-  @Watch('$route') _routeChange() {
-    this.__init()
+  @Watch("$route") _routeChange() {
+    this.__init();
   }
-  @Action('groups/fetchAll') fetchAll
-  @Action('groups/count') count
-  @State((state) => state.groups.items) items
-  @State((state) => state.groups.total) total
+  @Action("groups/fetchAll") fetchAll;
+  @Action("groups/count") count;
+  @State(state => state.groups.items) items;
+  @State(state => state.groups.total) total;
 
   //loading state
-  loading: boolean = false
+  loading: boolean = false;
 
   //filter
-  sortedInfo: any = null
-  filteredInfo: any = null
-  searchInInfo: any = [{ name: 'Name', field: 'name' }]
+  sortedInfo: any = null;
+  filteredInfo: any = null;
+  searchInInfo: any = [{ name: "Name", field: "name" }];
 
   //pagination
   pagination: any = {
-    size: 'small',
+    size: "small",
     current: 1,
-    pageSize: 30,
-  }
+    pageSize: 30
+  };
 
   //table properties
   get columns() {
-    let { sortedInfo, filteredInfo } = this
-    sortedInfo = sortedInfo || {}
-    filteredInfo = filteredInfo || {}
+    let { sortedInfo, filteredInfo } = this;
+    sortedInfo = sortedInfo || {};
+    filteredInfo = filteredInfo || {};
 
     const columns: any = [
       {
-        title: '#',
-        dataIndex: 'node.id',
-        key: 'id', // sort with field in model
+        title: "#",
+        dataIndex: "node.id",
+        key: "id", // sort with field in model
         sorter: true,
-        sortOrder: sortedInfo.columnKey === 'id' && sortedInfo.order,
-        scopedSlots: { customRender: '_id' },
+        sortOrder: sortedInfo.columnKey === "id" && sortedInfo.order,
+        scopedSlots: { customRender: "_id" }
       },
       {
-        title: 'Tên (giá trị)',
-        dataIndex: 'node.name',
-        key: 'name', // sort with field in model
+        title: "Tên (giá trị)",
+        dataIndex: "node.name",
+        key: "name", // sort with field in model
         sorter: true,
-        sortOrder: sortedInfo.columnKey === 'name' && sortedInfo.order,
-        scopedSlots: { customRender: '_name' },
+        sortOrder: sortedInfo.columnKey === "name" && sortedInfo.order,
+        scopedSlots: { customRender: "_name" }
       },
       {
-        title: 'Tên (hiển thị)',
-        scopedSlots: { customRender: '_screenName' },
+        title: "Tên (hiển thị)",
+        scopedSlots: { customRender: "_screenName" }
       },
       {
-        align: 'right',
-        scopedSlots: { customRender: '_actions' },
-      },
-    ]
+        align: "right",
+        scopedSlots: { customRender: "_actions" }
+      }
+    ];
 
-    return columns
+    return columns;
   }
 
   //table pagination event
   onChange(pagination, filters, sorter) {
-    this.filteredInfo = filters
-    this.sortedInfo = sorter
+    this.filteredInfo = filters;
+    this.sortedInfo = sorter;
 
     this.$router.push(`?
       ${createUrl(this.sortedInfo, this.filteredInfo)}
-    `)
+    `);
   }
 
   beforeMount() {
-    this.__init()
+    this.__init();
   }
 
   created() {
-    this.$bus.$on('groups.refresh', () => {
-      this.__init()
-    })
+    this.$bus.$on("groups.refresh", () => {
+      this.__init();
+    });
   }
 
   async __init() {
-    this.loading = true
+    this.loading = true;
     //if not total, get total to calculate page
     if (this.total === 0) {
-      await this.count()
+      await this.count();
     }
 
-    const { page } = this.$route.query
-    const currentPage: any = typeof page !== 'undefined' ? page : 1
-    const variables: any = getVariables(this, currentPage)
-    const { currentSort, currentFilters } = initQs()
-    this.sortedInfo = currentSort
-    this.filteredInfo = currentFilters
+    const { page } = this.$route.query;
+    const currentPage: any = typeof page !== "undefined" ? page : 1;
+    const variables: any = getVariables(this, currentPage);
+    const { currentSort, currentFilters } = initQs();
+    this.sortedInfo = currentSort;
+    this.filteredInfo = currentFilters;
 
     try {
-      await this.fetchAll(variables)
+      await this.fetchAll(variables);
 
-      this.loading = false
-      this.$bus.$emit('bc.total', this.total)
+      this.loading = false;
+      this.$bus.$emit("bc.total", this.total);
     } catch (error) {
-      this.loading = false
+      this.loading = false;
     }
   }
 }

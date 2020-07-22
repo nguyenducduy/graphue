@@ -1,7 +1,9 @@
 <template>
   <div>
     <Can I="createGroup">
-      <a-button type="primary" icon="plus" @click="visible = true">Thêm</a-button>
+      <a-button type="primary" icon="plus" @click="visible = true"
+        >Thêm</a-button
+      >
       <a-drawer
         title="Thêm nhóm"
         placement="right"
@@ -51,7 +53,10 @@
                 </div>
                 <div class="col-lg-12">
                   <a-form-item label="Màu thể hiện (hex, rgb, plain)">
-                    <a-input placeholder="ex: #fafafa, or blue/red" v-decorator="['color']" />
+                    <a-input
+                      placeholder="ex: #fafafa, or blue/red"
+                      v-decorator="['color']"
+                    />
                   </a-form-item>
                 </div>
               </div>
@@ -67,7 +72,9 @@
             type="primary"
             @click="onSubmit"
             :loading="loading"
-          >Save</a-button>
+            :disabled="hasErrors(form.getFieldsError())"
+            >Save</a-button
+          >
         </div>
       </a-drawer>
     </Can>
@@ -77,6 +84,7 @@
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
 import { Action } from "vuex-class";
+import { hasErrors } from "@/helper/utils";
 
 @Component({
   name: "group-add-drawer"
@@ -87,9 +95,11 @@ export default class GroupAdd extends Vue {
   visible: boolean = false;
   form: any = {};
   loading: boolean = false;
+  hasErrors: any = hasErrors;
 
   onSubmit(e) {
     e.preventDefault();
+
     this.form.validateFields(async (err, values) => {
       if (!err) {
         this.loading = true;

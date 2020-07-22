@@ -1,15 +1,13 @@
 <template>
   <div :class="$style.content">
     <div class="row">
-      <div class="col-lg-6">
-        <breadcrumbs :data="bc" />
-      </div>
-      <div class="col-lg-6 text-right">
-        <!-- <user-add-drawer /> -->
-      </div>
+      <Can I="listMenu">
+        <div class="col-lg-6">
+          <breadcrumbs :data="bc" />
+        </div>
+      </Can>
     </div>
     <menu-items />
-    <!-- <user-edit-drawer /> -->
   </div>
 </template>
 
@@ -18,8 +16,6 @@ import { Vue, Component } from "vue-property-decorator";
 import Pagination from "@/components/LayoutComponents/Pagination/index.vue";
 import Breadcrumbs from "@/components/LayoutComponents/Breadcrumbs/index.vue";
 import MenuItems from "@/components/Admin/Menu/Items/index.vue";
-// import UserAddDrawer from "@/components/Admin/User/Add/index.vue";
-// import UserEditDrawer from "@/components/Admin/User/Edit/index.vue";
 
 @Component({
   name: "user-page",
@@ -27,8 +23,6 @@ import MenuItems from "@/components/Admin/Menu/Items/index.vue";
     Pagination,
     Breadcrumbs,
     MenuItems
-    // UserAddDrawer,
-    // UserEditDrawer
   }
 })
 export default class MenuPage extends Vue {

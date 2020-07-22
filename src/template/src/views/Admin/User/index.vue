@@ -1,12 +1,14 @@
 <template>
   <div :class="$style.content">
     <div class="row">
-      <div class="col-lg-6">
-        <breadcrumbs :data="bc" />
-      </div>
-      <div class="col-lg-6 text-right">
-        <user-add-drawer />
-      </div>
+      <Can I="listUser">
+        <div class="col-lg-6">
+          <breadcrumbs :data="bc" />
+        </div>
+        <div class="col-lg-6 text-right">
+          <user-add-drawer />
+        </div>
+      </Can>
     </div>
     <user-items />
     <user-edit-drawer />

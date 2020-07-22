@@ -1,4 +1,4 @@
-import gql from 'graphql-tag'
+import gql from "graphql-tag";
 
 export const USER_FRAGMENT = gql`
   fragment user on UserNode {
@@ -27,4 +27,4 @@ export const USER_FRAGMENT = gql`
       color
     }
   }
-`
+`;

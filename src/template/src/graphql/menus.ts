@@ -1,5 +1,5 @@
-import gql from 'graphql-tag'
-import { NESTED_MENU_FRAGMENT, MENU_FRAGMENT } from './fragment/menu'
+import gql from "graphql-tag";
+import { NESTED_MENU_FRAGMENT, MENU_FRAGMENT } from "./fragment/menu";
 
 export const LIST_MENU = gql`
   query listMenu {
@@ -8,7 +8,7 @@ export const LIST_MENU = gql`
     }
   }
   ${NESTED_MENU_FRAGMENT}
-`
+`;
 export const GET_MENU = gql`
   query getMenu($id: Int!) {
     getMenu(id: $id) {
@@ -16,10 +16,15 @@ export const GET_MENU = gql`
     }
   }
   ${MENU_FRAGMENT}
-`
+`;
 
 export const CREATE_MENU = gql`
-  mutation createMenu($name: String!, $path: String, $icon: String, $parentId: Int!) {
+  mutation createMenu(
+    $name: String!
+    $path: String
+    $icon: String
+    $parentId: Int!
+  ) {
     createMenu(name: $name, path: $path, icon: $icon, parentId: $parentId) {
       menu {
         ...menu
@@ -27,18 +32,30 @@ export const CREATE_MENU = gql`
     }
   }
   ${MENU_FRAGMENT}
-`
+`;
 
 export const UPDATE_MENU = gql`
-  mutation updateMenu($id: Int!, $name: String!, $path: String, $icon: String, $parentId: Int!) {
-    updateMenu(id: $id, name: $name, path: $path, icon: $icon, parentId: $parentId) {
+  mutation updateMenu(
+    $id: Int!
+    $name: String!
+    $path: String
+    $icon: String
+    $parentId: Int!
+  ) {
+    updateMenu(
+      id: $id
+      name: $name
+      path: $path
+      icon: $icon
+      parentId: $parentId
+    ) {
       menu {
         ...menu
       }
     }
   }
   ${MENU_FRAGMENT}
-`
+`;
 
 export const DELETE_MENU = gql`
   mutation deleteMenu($id: Int!) {
@@ -46,4 +63,4 @@ export const DELETE_MENU = gql`
       deleted
     }
   }
-`
+`;

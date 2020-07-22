@@ -11,7 +11,8 @@
         v-else
         :style="`backgroundColor: ${loggedUser.status.color}`"
         :class="$style.avatar"
-      >{{ loggedUser.fullName[0] }}</a-avatar>
+        >{{ loggedUser.fullName[0] }}</a-avatar
+      >
       <!-- </a-badge> -->
     </div>
     <a-menu slot="overlay">
@@ -21,7 +22,9 @@
           <strong>{{ loggedUser.fullName }}</strong>
           <p class="mt-1">
             You logged in as
-            <a-tag :color="loggedUser.group.color">{{ loggedUser.group.screenName }}</a-tag>
+            <a-tag :color="loggedUser.group.color">{{
+              loggedUser.group.screenName
+            }}</a-tag>
           </p>
         </div>
       </a-menu-item>
