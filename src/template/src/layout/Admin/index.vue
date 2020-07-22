@@ -38,6 +38,7 @@
         <vu-footer />
       </a-layout-footer>
     </a-layout>
+    <change-password-modal />
   </a-layout>
 </template>
 
@@ -47,13 +48,15 @@ import { Mutation, State } from "vuex-class";
 import MenuLeft from "@/components/LayoutComponents/Menu/MenuLeft/index.vue";
 import Topbar from "@/components/LayoutComponents/Topbar/index.vue";
 import VuFooter from "@/components/LayoutComponents/Footer/index.vue";
+import ChangePasswordModal from "@/components/Admin/User/ChangePasswordModal/index.vue";
 
 @Component({
   name: "admin-layout",
   components: {
     MenuLeft,
     Topbar,
-    VuFooter
+    VuFooter,
+    ChangePasswordModal
   }
 })
 export default class AdminLayout extends Vue {

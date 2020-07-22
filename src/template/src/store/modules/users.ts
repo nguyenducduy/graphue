@@ -11,6 +11,7 @@ import {
   CREATE_FROM_GOOGLE_USER,
   LOGOUT_USER,
   LIST_STATUS_USER,
+  CHANGE_PASSWORD_USER,
 } from '@/graphql/users'
 
 const state: any = {
@@ -159,6 +160,12 @@ const actions: any = {
     })
 
     commit('SET_STATUS_LIST', response.data.listUser.statusList)
+  },
+  async changePassword({ commit }, variables) {
+    await graphqlClient.mutate({
+      mutation: CHANGE_PASSWORD_USER,
+      variables: variables,
+    })
   },
 }
 

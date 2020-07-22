@@ -126,7 +126,7 @@ class ChangePasswordUser(graphene.Mutation):
         myUser.password_hash = kwargs.get('password')
         save(myUser)
 
-        return ChangePassword(user=myUser)
+        return ChangePasswordUser(user=myUser)
 
 
 class CreateFromGoogleUser(graphene.Mutation):
