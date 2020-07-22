@@ -86,13 +86,7 @@
           </div>
         </div>
       </a-form>
-      <a-button
-        icon="double-right"
-        type="primary"
-        @click="onSubmit"
-        :loading="loading"
-        >Enter site</a-button
-      >
+      <a-button icon="double-right" type="primary" @click="onSubmit" :loading="loading">Enter site</a-button>
     </template>
   </a-result>
 </template>
@@ -107,7 +101,7 @@ const qs = require("query-string");
 })
 export default class Oauth extends Vue {
   @Action("users/loginByGoogle") loginByGoogle;
-  @Mutation("SET_ABILITY") setAbility;
+  @Mutation("SET_ALL_MENU") setAllMenu;
 
   form: any = {};
   loading: boolean = false;
@@ -123,6 +117,7 @@ export default class Oauth extends Vue {
         this.loading = true;
 
         try {
+          // set Logged-User, Access-Token, Access-Menu
           const response = await this.loginByGoogle({
             fullName: values.fullName,
             email: values.email,
@@ -133,7 +128,12 @@ export default class Oauth extends Vue {
             expiresAt: this.userInfo["expires_at"]
           });
 
-          this.setAbility(
+          // set All-Menu
+          this.setAllMenu(response.data.createFromGoogleUser.user.menu);
+
+          // set Access-Permission
+          Vue.ls.set(
+            "Access-Permission",
             response.data.createFromGoogleUser.user.group.permissions
           );
 

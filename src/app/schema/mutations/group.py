@@ -3,6 +3,8 @@ from app import db
 from app.model import Group, Permission, Menu
 from app.schema.nodes import GroupNode
 from flask_babel import _
+from flask_socketio import SocketIO
+from flask import current_app
 
 
 class CreateGroup(graphene.Mutation):
@@ -110,7 +112,6 @@ class AssignMenu(graphene.Mutation):
         currentMenus = []
         for menu in myGroup.menus:
             currentMenus.append(menu.id)
-        print(currentMenus)
 
         # add new menu
         for menuId in kwargs.get('menus'):
@@ -126,6 +127,13 @@ class AssignMenu(graphene.Mutation):
                     myGroup.menus.remove(myMenu)
 
         db.session.commit()
+
+        # emit event "assign_menu_change"
+        accessMenus = []
+        [accessMenus.append({"id": item.id}) for item in myGroup.menus]
+        socketio = SocketIO(message_queue=current_app.config['REDIS_URI'])
+        socketio.emit('assign_menu_change', data=(
+            myGroup.id, accessMenus))
 
         return AssignMenu(assigned=True)
 

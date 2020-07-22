@@ -7,9 +7,10 @@ from sqlalchemy.event import listens_for
 from .rel_group_permission import RelGroupPermission
 # must have when using n-n relationship
 from .rel_group_menu import RelGroupMenu
+from sqlalchemy_serializer import SerializerMixin
 
 
-class Group(db.Model):
+class Group(db.Model, SerializerMixin):
     __tablename__ = 'group'
 
     id = Column(Integer, primary_key=True, autoincrement=True)

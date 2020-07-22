@@ -25,11 +25,7 @@
                       }
                     ]"
                   >
-                    <a-icon
-                      slot="prefix"
-                      type="user"
-                      style="color: rgba(0,0,0,.25);"
-                    />
+                    <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25);" />
                   </a-input>
                 </a-form-item>
                 <a-form-item label="Password">
@@ -48,11 +44,7 @@
                       }
                     ]"
                   >
-                    <a-icon
-                      slot="prefix"
-                      type="lock"
-                      style="color: rgba(0,0,0,.25);"
-                    />
+                    <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25);" />
                   </a-input>
                 </a-form-item>
                 <div>
@@ -60,8 +52,7 @@
                   <router-link
                     class="pull-right text-primary utils__link--blue utils__link--underlined"
                     to="/user/forgot"
-                    >Forgot password?</router-link
-                  >
+                  >Forgot password?</router-link>
                 </div>
                 <div class="form-actions">
                   <a-button
@@ -69,16 +60,14 @@
                     htmlType="submit"
                     class="login-form-button width-150"
                     :loading="loading"
-                    >Sign in</a-button
-                  >
+                  >Sign in</a-button>
                   <a-button
                     class="float-right"
                     type="dashed"
                     icon="google"
                     :loading="loading"
                     @click.prevent="onGoogleSignin('google')"
-                    >Sign in with Google</a-button
-                  >
+                  >Sign in with Google</a-button>
                 </div>
               </a-form>
             </div>
@@ -98,8 +87,8 @@ import { Mutation, Getter, Action } from "vuex-class";
 })
 export default class AdminLogin extends Vue {
   @Action("users/loginByEmail") loginByEmail;
-  @Mutation("SET_ABILITY") setAbility;
   @Getter("users/isAuth") isAuth;
+  @Mutation("SET_ALL_MENU") setAllMenu;
 
   form: any = {};
   loading: boolean = false;
@@ -126,12 +115,20 @@ export default class AdminLogin extends Vue {
         this.loading = true;
 
         try {
+          // set Logged-User, Access-Token, Access-Menu
           const response = await this.loginByEmail({
             email: values.email,
             password: values.password
           });
 
-          this.setAbility(response.data.loginUser.user.group.permissions);
+          // set All-Menu
+          this.setAllMenu(response.data.loginUser.user.menu);
+
+          // set Access-Permission
+          Vue.ls.set(
+            "Access-Permission",
+            response.data.loginUser.user.group.permissions
+          );
 
           const redirectUrl: any =
             this.$route.query.redirect || "/admin/overview";

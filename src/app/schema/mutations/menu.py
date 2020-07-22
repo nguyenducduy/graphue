@@ -2,6 +2,8 @@ import graphene
 from app import db
 from app.model import Menu
 from app.schema.nodes import MenuNode
+from flask_socketio import SocketIO
+from flask import current_app
 
 
 class CreateMenu(graphene.Mutation):
@@ -21,6 +23,8 @@ class CreateMenu(graphene.Mutation):
             parent_id=kwargs.get('parent_id')
         )
         save(myMenu)
+
+        emit_menu_change()
 
         return CreateMenu(menu=myMenu)
 
@@ -48,6 +52,8 @@ class UpdateMenu(graphene.Mutation):
         myMenu.parent_id = kwargs.get('parent_id')
         save(myMenu)
 
+        emit_menu_change()
+
         return UpdateMenu(menu=myMenu)
 
 
@@ -66,7 +72,34 @@ class DeleteMenu(graphene.Mutation):
 
         delete(myMenu)
 
+        emit_menu_change()
+
         return DeleteMenu(deleted=True)
+
+
+def cat_to_json(item):
+    return {
+        'id': item.id,
+        'name': item.name,
+        'path': item.path,
+        'icon': item.icon,
+        'parentId': item.parent_id
+    }
+
+
+def emit_menu_change():
+    socketio = SocketIO(message_queue=current_app.config['REDIS_URI'])
+    menu_tree = []
+    myMenu = Menu.query.all()
+
+    if len(myMenu) > 0:
+        for item in myMenu:
+            menu_tree.append(item.drilldown_tree(
+                json=True, json_fields=cat_to_json))
+
+        socketio.emit('menu_change', menu_tree[0][0])
+    else:
+        pass
 
 
 def save(data):

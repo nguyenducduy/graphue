@@ -1,77 +1,77 @@
-import Vue from "vue";
-import VueRouter, { RouteConfig } from "vue-router";
-import store from "@/store";
-import LoginLayout from "@/layout/Login/index.vue";
-import AdminLayout from "@/layout/Admin/index.vue";
+import Vue from 'vue'
+import VueRouter, { RouteConfig } from 'vue-router'
+import store from '@/store'
+import LoginLayout from '@/layout/Login/index.vue'
+import AdminLayout from '@/layout/Admin/index.vue'
 
-const host = window.location.host;
-const parts = host.split(".");
+const host = window.location.host
+const parts = host.split('.')
 
-Vue.use(VueRouter);
+Vue.use(VueRouter)
 
 const routes: Array<RouteConfig> = [
   // admin pages
   {
-    path: "/admin",
-    redirect: to => ({
-      path: "/admin/overview"
+    path: '/admin',
+    redirect: (to) => ({
+      path: '/admin/overview',
       // query: { sort: "id.descend" }
     }),
     component: AdminLayout,
     meta: {
-      authRequired: true
+      authRequired: true,
     },
     children: [
       {
-        path: "/admin/overview",
+        path: '/admin/overview',
         meta: {
-          title: `${parts[0]} - Overview`
+          title: `${parts[0]} - Overview`,
         },
-        component: () => import("../views/Admin/Overview/index.vue")
+        component: () => import('../views/Admin/Overview/index.vue'),
       },
       {
-        path: "/admin/user",
+        path: '/admin/user',
         meta: {
-          title: `${parts[0]} - User`
+          title: `${parts[0]} - User`,
         },
-        component: () => import("../views/Admin/User/index.vue")
+        component: () => import('../views/Admin/User/index.vue'),
       },
       {
-        path: "/admin/permission",
+        path: '/admin/permission',
         meta: {
-          title: `${parts[0]} - Permission`
+          title: `${parts[0]} - Permission`,
         },
-        component: () => import("../views/Admin/Permission/index.vue")
+        component: () => import('../views/Admin/Permission/index.vue'),
       },
       {
-        path: "/admin/group",
+        path: '/admin/group',
         meta: {
-          title: `${parts[0]} - Group`
+          title: `${parts[0]} - Group`,
         },
-        component: () => import("../views/Admin/Group/index.vue")
+        component: () => import('../views/Admin/Group/index.vue'),
       },
       {
-        path: "/admin/menu",
+        path: '/admin/menu',
         meta: {
-          title: `${parts[0]} - Menu`
+          title: `${parts[0]} - Menu`,
         },
-        component: () => import("../views/Admin/Menu/index.vue")
-      }
-    ]
+        component: () => import('../views/Admin/Menu/index.vue'),
+      },
+    ],
   },
 
   // Non permmission pages
   {
-    path: "/admin/login",
+    path: '/admin/login',
     component: LoginLayout,
     children: [
       {
-        path: "/admin/login",
+        path: '/admin/login',
         meta: {
-          title: `${parts[0]} - Login`
+          title: `${parts[0]} - Login`,
         },
-        component: () => import("../views/Admin/Login/index.vue")
-      }
+        component: () => import('../views/Admin/Login/index.vue'),
+      },
       // {
       //   path: '/admin/forgot',
       //   meta: {
@@ -79,59 +79,68 @@ const routes: Array<RouteConfig> = [
       //   },
       //   component: () => import('./views/user/forgot'),
       // },
-    ]
+    ],
   },
   {
-    path: "/install",
+    path: '/install',
     component: LoginLayout,
     children: [
       {
-        path: "/install",
+        path: '/install',
         meta: {
-          title: `${parts[0]} - Installation`
+          title: `${parts[0]} - Installation`,
         },
-        component: () => import("../views/Install/index.vue")
-      }
-    ]
+        component: () => import('../views/Install/index.vue'),
+      },
+    ],
   },
   {
-    path: "/oauth/:provider",
+    path: '/oauth/:provider',
     meta: {
-      title: `${parts[0]} - Oauth`
+      title: `${parts[0]} - Oauth`,
     },
-    component: () => import("../views/oauth.vue")
-  }
-];
+    component: () => import('../views/oauth.vue'),
+  },
+]
 
 const router = new VueRouter({
-  mode: "history",
+  mode: 'history',
   base: process.env.BASE_URL,
-  routes
-});
+  routes,
+})
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some(record => record.meta.authRequired)) {
-    const loggedToken = Vue.ls.get("Access-Token");
-    const loggedUser = Vue.ls.get("Logged-User");
+  if (to.matched.some((record) => record.meta.authRequired)) {
+    const loggedToken = Vue.ls.get('Access-Token')
+    const loggedUser = Vue.ls.get('Logged-User')
+    const allMenus = Vue.ls.get('All-Menu')
+    const accessMenus = Vue.ls.get('Access-Menu')
+    const accessPermission = Vue.ls.get('Access-Permission')
 
     if (!loggedToken) {
       return next({
-        path: "/admin/login",
-        query: { redirect: to.fullPath }
-      });
+        path: '/admin/login',
+        query: { redirect: to.fullPath },
+      })
     }
 
-    store.commit("users/SET_AUTH", {
+    // set Logged-Auth & Access-Token & Access-Menu
+    store.commit('users/SET_AUTH', {
       token: loggedToken,
-      user: loggedUser
-    });
+      user: loggedUser,
+      accessMenus: accessMenus,
+    })
 
-    store.commit("SET_ABILITY", loggedUser.group.permissions);
+    // set All-Menu
+    store.commit('SET_ALL_MENU', allMenus)
 
-    next();
+    // update ability casl
+    store.commit('SET_ABILITY', loggedUser.group.permissions)
+
+    next()
   } else {
-    next();
+    next()
   }
-});
+})
 
-export default router;
+export default router

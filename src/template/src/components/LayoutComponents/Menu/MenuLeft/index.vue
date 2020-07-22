@@ -26,8 +26,9 @@
             <a-menu-item
               :key="`${item.id}-${item.path}`"
               v-if="
-                item.children.length == 0 &&
-                  loggedUser.group.menus.some(e => e.id == item.id)
+                  typeof item.children === 'undefined' ||
+                  item.children.length == 0 &&
+                  accessMenu.some(e => e.id == item.id)
               "
             >
               <router-link v-if="item.path !== ''" :to="item.path">
@@ -42,8 +43,9 @@
 
             <a-sub-menu
               v-if="
+                typeof item.children !== 'undefined' &&
                 item.children.length > 0 &&
-                  loggedUser.group.menus.some(e => e.id == item.id)
+                  accessMenu.some(e => e.id == item.id)
               "
               :key="`${item.id}-${item.path}`"
             >
@@ -54,7 +56,7 @@
               <template v-for="child in item.children">
                 <a-menu-item
                   :key="`${child.id}-${child.path}`"
-                  v-if="loggedUser.group.menus.some(e => e.id == child.id)"
+                  v-if="accessMenu.some(e => e.id == child.id)"
                 >
                   <router-link v-if="child.path !== ''" :to="child.path">
                     <span :class="$style.title">{{ child.name }}</span>
@@ -95,12 +97,13 @@ export default class MenuLeft extends Vue {
 
   @Getter("openKeys") getOpenKeys;
   @Getter("selectedKeys") getSelectedKeys;
-  @Getter("users/loggedMenu") loggedMenu;
+  @Getter("allMenu") allMenu;
+  @Getter("users/accessMenu") accessMenu;
   @Getter("users/loggedUser") loggedUser;
   @Getter("settings/isMenuCollapsed") isMenuCollapsed;
 
   get items() {
-    return this.loggedMenu[0]["node"]["children"];
+    return this.allMenu[0]["node"]["children"];
   }
 
   selectedKeys: any = [];

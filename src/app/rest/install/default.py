@@ -43,7 +43,7 @@ DEFAULT_PERMISSION = [
     {'name': 'createMenu', 'description': 'Create menu from admin panel'},
     {'name': 'updateMenu', 'description': 'Update menu from admin panel'},
     {'name': 'deleteMenu', 'description': 'Delete menu from admin panel'},
-    {'name': 'listMenu', 'description': 'List all menu in system'},
+    {'name': 'listMenu', 'description': '(Required) List all menu in system'},
     {'name': 'getMenu', 'description': 'Get a menu info'},
     {'name': 'updateLanguage', 'description': 'Update component language from admin panel'},
 ]

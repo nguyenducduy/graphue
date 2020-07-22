@@ -1,56 +1,62 @@
-import Vue from "vue";
-import Vuex from "vuex";
-import { Ability, AbilityBuilder } from "@casl/ability";
-import abilityPlugin from "./ability";
-import settings from "./modules/settings";
-import users from "./modules/users";
-import permissions from "./modules/permissions";
-import groups from "./modules/groups";
-import menus from "./modules/menus";
+import Vue from 'vue'
+import Vuex from 'vuex'
+import { Ability, AbilityBuilder } from '@casl/ability'
+import abilityPlugin from './ability'
+import settings from './modules/settings'
+import users from './modules/users'
+import permissions from './modules/permissions'
+import groups from './modules/groups'
+import menus from './modules/menus'
 
 // casl
-const TYPE_KEY = Symbol("resourceType");
+const TYPE_KEY = Symbol('resourceType')
 
-Vue.use(Vuex);
+Vue.use(Vuex)
 
 export const state = {
-  rules: []
-};
+  rules: [],
+  allMenus: [],
+}
 
 export const mutations = {
   SET(state, payload) {
-    state[payload.app] = payload.value;
+    state[payload.app] = payload.value
   },
   SET_ABILITY(state, permission) {
-    const { can, rules } = new AbilityBuilder();
-    permission.map(perm => {
-      can(perm.name);
-    });
+    const { can, rules } = new AbilityBuilder()
+    permission.map((perm) => {
+      can(perm.name)
+    })
 
-    state.rules = rules;
+    state.rules = rules
   },
   REMOVE_ABILITY(state) {
-    state.rules = [];
-  }
-};
+    state.rules = []
+  },
+  SET_ALL_MENU(state, data) {
+    state.allMenus = data
+    Vue.ls.set('All-Menu', data)
+  },
+}
 
 export const getters = {
   openKeys(state) {
-    return state["menu.openedKeys"] || [];
+    return state['menu.openedKeys'] || []
   },
   selectedKeys(state) {
-    return state["menu.selectedKeys"] || [];
+    return state['menu.selectedKeys'] || []
   },
   ability() {
     return new Ability([], {
       subjectName(subject) {
-        return !subject || typeof subject === "string"
-          ? subject
-          : subject[TYPE_KEY];
-      }
-    });
-  }
-};
+        return !subject || typeof subject === 'string' ? subject : subject[TYPE_KEY]
+      },
+    })
+  },
+  allMenu(state) {
+    return state.allMenus || null
+  },
+}
 
 export default new Vuex.Store({
   plugins: [abilityPlugin],
@@ -62,7 +68,7 @@ export default new Vuex.Store({
     users,
     permissions,
     groups,
-    menus
+    menus,
   },
-  strict: process.env.NODE_ENV !== "production"
-});
+  strict: process.env.NODE_ENV !== 'production',
+})
