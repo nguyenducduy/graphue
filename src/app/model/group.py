@@ -16,6 +16,7 @@ class Group(db.Model, SerializerMixin):
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(100), nullable=False, index=True, unique=True)
     screen_name = Column(String(100), nullable=True)
+    description = Column(String(255), nullable=True)
     color = Column(String(10))
     created_at = Column(Integer, nullable=False)
     updated_at = Column(Integer)

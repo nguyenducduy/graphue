@@ -12,7 +12,13 @@ import { Vue, Component } from "vue-property-decorator";
 import { Mutation, State } from "vuex-class";
 
 @Component
-export default class LoginLayout extends Vue {}
+export default class LoginLayout extends Vue {
+  @Mutation("settings/CHANGE_SETTING") changeSetting;
+
+  mounted() {
+    this.changeSetting({ setting: "isMenuCollapsed", value: true });
+  }
+}
 </script>
 
 <style lang="scss" module>

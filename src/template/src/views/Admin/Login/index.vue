@@ -5,7 +5,7 @@
         <div class="col-xl-12">
           <div :class="$style.inner">
             <h3 class="text-5xl mb-3">
-              Sign In
+              SignIn
               <span class="text-3xl mb-3">to Graphue</span>
             </h3>
             <div :class="$style.form">
@@ -47,12 +47,8 @@
                     <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25);" />
                   </a-input>
                 </a-form-item>
-                <div>
-                  <a-checkbox>Remember me</a-checkbox>
-                  <router-link
-                    class="pull-right text-primary utils__link--blue utils__link--underlined"
-                    to="/user/forgot"
-                  >Forgot password?</router-link>
+                <div class="text-right">
+                  <a-button type="link">Forgot password?</a-button>
                 </div>
                 <div class="form-actions">
                   <a-button

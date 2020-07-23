@@ -12,10 +12,14 @@ log = logging.getLogger(__name__)
 ns = rest.namespace('install', description='Install require app data.')
 
 DEFAULT_GROUP = [
-    {'name': 'admin', 'screen_name': _('Administrator'), 'color': 'red'},
-    {'name': 'mod', 'screen_name': _('Moderator'), 'color': 'orange'},
-    {'name': 'member', 'screen_name': _('Member'), 'color': 'blue'},
-    {'name': 'guest', 'screen_name': _('Guest'), 'color': ''},
+    {'name': 'admin', 'screen_name': _(
+        'Administrator'), 'description': '(Required) Delete this group may harmful for system', 'color': 'red'},
+    {'name': 'mod', 'screen_name': _(
+        'Moderator'), 'description': '', 'color': 'orange'},
+    {'name': 'member', 'screen_name': _(
+        'Member'), 'description': '(Required) Delete this group may harmful for system', 'color': 'blue'},
+    {'name': 'guest', 'screen_name': _(
+        'Guest'), 'description': '', 'color': ''},
 ]
 
 DEFAULT_PERMISSION = [

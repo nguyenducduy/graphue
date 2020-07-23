@@ -10,25 +10,39 @@ class Config:
     """Base config vars."""
     GRAPHIQL = True
     DEBUG = False
-    SECRET_KEY = os.environ.get('SECRET_KEY')
-    LANGUAGES = {
-        'en': 'English',
-        'vi': 'Vietnamese'
-    }
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
     BABEL_DEFAULT_LOCALE = 'en'
     BABEL_DEFAULT_TIMEZONE = 'UTC'
+
+    # secrect key for JWT token
+    SECRET_KEY = os.environ.get('SECRET_KEY')
+
+    # graphql endpoint
     GRAPHQL_ENDPOINT = '/graphql'
-    SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+    # cors allowed domain
     ALLOW_ORIGINS = '*'
+
+    # wagger docs
     REST_TITLE = 'Graphue REST API'
     REST_VERSION = '1.0'
     REST_DESCRIPTION = 'API documentation of a Graphue'
     REST_DOC_URI = '/doc'
+
+    # language supported
+    LANGUAGES = {
+        'en': 'English',
+        'vi': 'Vietnamese'
+    }
+
+    # public endpoint
     PUBLIC_SCHEMA = [
         '__schema',
         'loginUser',
         'createFromGoogleUser'
     ]
+
+    # Google API credentials
     GOOGLE_ACCESS_TOKEN_URI = 'https://www.googleapis.com/oauth2/v4/token'
     GOOGLE_AUTHORIZATION_SCOPE = 'openid email profile'
 

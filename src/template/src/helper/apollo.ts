@@ -22,13 +22,19 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
       ({ message, locations, path }) =>
         notification.error({
           message: message,
-          description: path,
+          description: path as any,
         })
       // console.log(
       //   `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
       // )
     )
-  if (networkError) console.log(`[Network error]: ${networkError}`)
+  if (networkError) {
+    console.log(networkError)
+    notification.error({
+      message: 'Network error',
+      description: networkError.toString(),
+    })
+  }
 })
 
 export default new ApolloClient({
