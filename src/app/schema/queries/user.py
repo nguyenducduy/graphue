@@ -1,5 +1,5 @@
 import graphene
-from graphene_sqlalchemy_filter import FilterSet
+from app.lib.graphene_sqlalchemy_filter import FilterSet
 from app.model import User, Group
 from app.schema.nodes import UserNode, GroupNode, CommonDictNode
 
@@ -35,9 +35,7 @@ class UserConnection(graphene.Connection):
 
 
 def resolve_user(self, info, **kwargs):
-    myUser = UserNode.get_query(info).filter_by(
-        id=kwargs.get('id')
-    ).first()
+    myUser = User.query.get(kwargs.get('id'))
 
     output = []
     if len(myUser.group.menus) > 0:

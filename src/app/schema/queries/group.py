@@ -1,7 +1,7 @@
 import graphene
-from graphene_sqlalchemy_filter import FilterSet
+from app.lib.graphene_sqlalchemy_filter import FilterSet
 from app.model import Group
-from app.schema.nodes import GroupNode, PermissionNode
+from app.schema.nodes import GroupNode
 
 
 class GroupFilter(FilterSet):
@@ -24,6 +24,4 @@ class GroupConnection(graphene.Connection):
 
 
 def resolve_group(self, info, **kwargs):
-    return GroupNode.get_query(info).filter_by(
-        id=kwargs.get('id')
-    ).first()
+    return Group.query.get(kwargs.get('id'))

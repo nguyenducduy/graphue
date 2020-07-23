@@ -1,5 +1,5 @@
 import graphene
-from graphene_sqlalchemy_filter import FilterableConnectionField
+from app.lib.graphene_sqlalchemy_filter import FilterableConnectionField
 from graphene_file_upload.scalars import Upload
 
 # NODES

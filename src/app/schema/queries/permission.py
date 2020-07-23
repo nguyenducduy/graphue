@@ -1,5 +1,5 @@
 import graphene
-from graphene_sqlalchemy_filter import FilterSet
+from app.lib.graphene_sqlalchemy_filter import FilterSet
 from app.model import Permission
 from app.schema.nodes import PermissionNode
 
@@ -25,6 +25,4 @@ class PermissionConnection(graphene.Connection):
 
 
 def resolve_permission(self, info, **kwargs):
-    return PermissionNode.get_query(info).filter_by(
-        id=kwargs.get('id')
-    ).first()
+    return Permission.query.get(kwargs.get('id'))

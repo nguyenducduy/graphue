@@ -32,12 +32,12 @@ def create_app(*config_cls):
     def get_locale():
         return request.accept_languages.best_match(app.config['LANGUAGES'].keys())
 
-    # db migrate
-    migrate = Migrate(app, db)
-
     # MySQL connection
     db.init_app(app)
     app.db = db
+
+    # db migrate
+    migrate = Migrate(app, db)
 
     # REST
     from .rest import rest
