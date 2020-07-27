@@ -1,8 +1,8 @@
-"""init tables
+"""empty message
 
-Revision ID: 360ee27782aa
+Revision ID: b7482543ca87
 Revises: 
-Create Date: 2020-07-27 16:44:46.130636
+Create Date: 2020-07-27 17:12:45.881251
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '360ee27782aa'
+revision = 'b7482543ca87'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -52,7 +52,7 @@ def upgrade():
     sa.PrimaryKeyConstraint('id')
     )
     op.create_index(op.f('ix_menu_name'), 'menu', ['name'], unique=False)
-    op.create_index(op.f('ix_menu_path'), 'menu', ['path'], unique=True)
+    op.create_index(op.f('ix_menu_path'), 'menu', ['path'], unique=False)
     op.create_index('menu_level_idx', 'menu', ['level'], unique=False)
     op.create_index('menu_lft_idx', 'menu', ['lft'], unique=False)
     op.create_index('menu_rgt_idx', 'menu', ['rgt'], unique=False)
