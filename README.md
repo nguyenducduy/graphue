@@ -112,3 +112,15 @@ pybabel extract -F babel.cfg -o messages.pot . && pybabel update -i messages.pot
 cd apache-benchmark
 ab -p post_data.txt -T application/json -H 'authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjYyNDcyNzQsImlhdCI6MTU5NDcxMTI2OSwic3ViIjoxfQ.YGgjKzRpP4U4iwK-j5i0GAeYgzxArjZimOnKEglYYMg' -c 10 -n 100 http://localhost:5000/graphql
 ```
+
+### cli
+
+```
+FLASK_APP=manage.py flask db
+```
+
+## remove all python cache file
+
+```
+find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf
+```

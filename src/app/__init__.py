@@ -8,6 +8,7 @@ from flask_cors import CORS
 from .config import DevelopmentConfig, ProductionConfig
 
 db = SQLAlchemy()
+migrate = Migrate()
 
 
 def create_app(*config_cls):
@@ -36,8 +37,8 @@ def create_app(*config_cls):
     db.init_app(app)
     app.db = db
 
-    # db migrate
-    migrate = Migrate(app, db)
+    # migrate
+    migrate.init_app(app, db)
 
     # REST
     from .rest import rest
@@ -58,7 +59,7 @@ def create_app(*config_cls):
     Schema(app)
 
     # cors
-    # CORS(app, resources={r'/*': {'origins': app.config['ALLOW_ORIGINS']}})
+    CORS(app, resources={r'/*': {'origins': app.config['ALLOW_ORIGINS']}})
 
     @app.teardown_appcontext
     def shutdown_session(exception=None):

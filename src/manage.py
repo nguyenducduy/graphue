@@ -1,6 +1,8 @@
 from app.model import Group, Menu, Permission
 from flask_socketio import SocketIO, emit
 from app import create_app
+from flask_migrate import MigrateCommand
+from flask_babel import _
 import logging
 import eventlet
 eventlet.monkey_patch()
@@ -9,12 +11,14 @@ eventlet.monkey_patch()
 app = create_app()
 
 # add custom cli command line here
-
+app.cli.add_command('db', MigrateCommand)
 
 # enable socketio
 socketio = SocketIO(
     app, async_mode='eventlet', cors_allowed_origins=app.config['ALLOW_ORIGINS'], message_queue=app.config['REDIS_URI'],  manage_session=False)
 
+
+########## SOCKET EVENT ##########
 
 @socketio.on('check_menu_permission_change')
 def check(groupId):

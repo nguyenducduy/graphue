@@ -1,8 +1,8 @@
-"""empty message
+"""init tables
 
-Revision ID: b31879930b43
+Revision ID: 360ee27782aa
 Revises: 
-Create Date: 2020-07-10 15:21:15.609453
+Create Date: 2020-07-27 16:44:46.130636
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'b31879930b43'
+revision = '360ee27782aa'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -24,27 +24,55 @@ def upgrade():
     sa.Column('created_at', sa.Integer(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
+    op.create_index(op.f('ix_blacklist_token_token'), 'blacklist_token', ['token'], unique=True)
     op.create_table('group',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('name', sa.String(length=100), nullable=False),
-    sa.Column('screen_name', sa.String(length=100), nullable=False),
+    sa.Column('screen_name', sa.String(length=100), nullable=True),
+    sa.Column('description', sa.String(length=255), nullable=True),
     sa.Column('color', sa.String(length=10), nullable=True),
     sa.Column('created_at', sa.Integer(), nullable=False),
     sa.Column('updated_at', sa.Integer(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_index(op.f('ix_group_name'), 'group', ['name'], unique=False)
-    op.create_index(op.f('ix_group_screen_name'), 'group', ['screen_name'], unique=False)
+    op.create_index(op.f('ix_group_name'), 'group', ['name'], unique=True)
+    op.create_table('menu',
+    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+    sa.Column('name', sa.String(length=150), nullable=True),
+    sa.Column('path', sa.String(length=150), nullable=True),
+    sa.Column('icon', sa.String(length=50), nullable=True),
+    sa.Column('created_at', sa.Integer(), nullable=False),
+    sa.Column('updated_at', sa.Integer(), nullable=True),
+    sa.Column('lft', sa.Integer(), nullable=False),
+    sa.Column('rgt', sa.Integer(), nullable=False),
+    sa.Column('level', sa.Integer(), nullable=False),
+    sa.Column('tree_id', sa.Integer(), nullable=True),
+    sa.Column('parent_id', sa.Integer(), nullable=True),
+    sa.ForeignKeyConstraint(['parent_id'], ['menu.id'], ondelete='CASCADE'),
+    sa.PrimaryKeyConstraint('id')
+    )
+    op.create_index(op.f('ix_menu_name'), 'menu', ['name'], unique=False)
+    op.create_index(op.f('ix_menu_path'), 'menu', ['path'], unique=True)
+    op.create_index('menu_level_idx', 'menu', ['level'], unique=False)
+    op.create_index('menu_lft_idx', 'menu', ['lft'], unique=False)
+    op.create_index('menu_rgt_idx', 'menu', ['rgt'], unique=False)
     op.create_table('permission',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('name', sa.String(length=100), nullable=False),
-    sa.Column('description', sa.String(length=255), nullable=False),
+    sa.Column('description', sa.String(length=255), nullable=True),
     sa.Column('created_at', sa.Integer(), nullable=False),
     sa.Column('updated_at', sa.Integer(), nullable=True),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_index(op.f('ix_permission_description'), 'permission', ['description'], unique=False)
     op.create_index(op.f('ix_permission_name'), 'permission', ['name'], unique=True)
+    op.create_table('rel_group_menu',
+    sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
+    sa.Column('group_id', sa.Integer(), nullable=False),
+    sa.Column('menu_id', sa.Integer(), nullable=False),
+    sa.ForeignKeyConstraint(['group_id'], ['group.id'], ),
+    sa.ForeignKeyConstraint(['menu_id'], ['menu.id'], ),
+    sa.PrimaryKeyConstraint('id', 'group_id', 'menu_id')
+    )
     op.create_table('rel_group_permission',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('group_id', sa.Integer(), nullable=False),
@@ -59,11 +87,11 @@ def upgrade():
     sa.Column('avatar', sa.String(length=255), nullable=True),
     sa.Column('email', sa.String(length=255), nullable=False),
     sa.Column('password', sa.String(length=255), nullable=True),
-    sa.Column('status', sa.Integer(), nullable=True),
     sa.Column('oauth_provider', sa.String(length=50), nullable=True),
     sa.Column('oauth_token', sa.String(length=255), nullable=True),
     sa.Column('oauth_refresh_token', sa.String(length=255), nullable=True),
     sa.Column('oauth_token_expired_at', sa.Integer(), nullable=True),
+    sa.Column('status', sa.Integer(), nullable=True),
     sa.Column('created_at', sa.Integer(), nullable=False),
     sa.Column('updated_at', sa.Integer(), nullable=True),
     sa.Column('group_id', sa.Integer(), nullable=True),
@@ -72,20 +100,28 @@ def upgrade():
     )
     op.create_index(op.f('ix_user_email'), 'user', ['email'], unique=True)
     op.create_index(op.f('ix_user_password'), 'user', ['password'], unique=False)
+    op.create_index(op.f('ix_user_status'), 'user', ['status'], unique=False)
     # ### end Alembic commands ###
 
 
 def downgrade():
     # ### commands auto generated by Alembic - please adjust! ###
+    op.drop_index(op.f('ix_user_status'), table_name='user')
     op.drop_index(op.f('ix_user_password'), table_name='user')
     op.drop_index(op.f('ix_user_email'), table_name='user')
     op.drop_table('user')
     op.drop_table('rel_group_permission')
+    op.drop_table('rel_group_menu')
     op.drop_index(op.f('ix_permission_name'), table_name='permission')
-    op.drop_index(op.f('ix_permission_description'), table_name='permission')
     op.drop_table('permission')
-    op.drop_index(op.f('ix_group_screen_name'), table_name='group')
+    op.drop_index('menu_rgt_idx', table_name='menu')
+    op.drop_index('menu_lft_idx', table_name='menu')
+    op.drop_index('menu_level_idx', table_name='menu')
+    op.drop_index(op.f('ix_menu_path'), table_name='menu')
+    op.drop_index(op.f('ix_menu_name'), table_name='menu')
+    op.drop_table('menu')
     op.drop_index(op.f('ix_group_name'), table_name='group')
     op.drop_table('group')
+    op.drop_index(op.f('ix_blacklist_token_token'), table_name='blacklist_token')
     op.drop_table('blacklist_token')
     # ### end Alembic commands ###
