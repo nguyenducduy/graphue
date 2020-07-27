@@ -1,20 +1,15 @@
 <template>
   <div :class="$style.breadcrumbs">
     <div :class="$style.path">
-      <a-button
-        class="mr-2 text-2xl"
-        type="link"
-        @click="$router.go(-1)"
-        icon="arrow-left"
-      ></a-button>
+      <a-button class="mr-2 text-2xl" type="link" @click="$router.go(-1)" icon="arrow-left"></a-button>
       <template v-for="(item, index) in data">
         <span :key="index" class="text-2xl">
           <span class="font-weight-normal" v-if="item.active">
-            {{ item.title }}
+            {{ $t(item.title) }}
             <span v-if="total > 0 && item.active">({{ total }})</span>
           </span>
           <strong v-else>
-            <router-link :to="item.url">{{ item.title }}</router-link>
+            <router-link :to="item.url">{{ $t(item.title) }}</router-link>
           </strong>
           <span v-if="!item.active" :class="$style.arrow"></span>
         </span>

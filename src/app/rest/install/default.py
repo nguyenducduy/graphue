@@ -118,31 +118,6 @@ class Install(Resource):
         )
         db.session.add(myMenuDashboard)
 
-        # setting menu
-        myMenuSetting = Menu(
-            name='Setting',
-            path='',
-            icon='fa fa-cog',
-            parent_id=myMenuRoot.id
-        )
-        db.session.add(myMenuSetting)
-        db.session.commit()
-        mySubMenuMenu = Menu(
-            name='Menu',
-            path='/admin/menu',
-            icon='',
-            parent_id=myMenuSetting.id
-        )
-        db.session.add(mySubMenuMenu)
-        mySubMenuLanguage = Menu(
-            name='Language',
-            path='/admin/language',
-            icon='',
-            parent_id=myMenuSetting.id
-        )
-        db.session.add(mySubMenuLanguage)
-        db.session.commit()
-
         # menu user
         myMenuUser = Menu(
             name='User',
@@ -173,6 +148,24 @@ class Install(Resource):
             parent_id=myMenuUser.id
         )
         db.session.add(mySubMenuGrant)
+        db.session.commit()
+
+        # setting menu
+        myMenuSetting = Menu(
+            name='Setting',
+            path='',
+            icon='fa fa-cog',
+            parent_id=myMenuRoot.id
+        )
+        db.session.add(myMenuSetting)
+        db.session.commit()
+        mySubMenuMenu = Menu(
+            name='Menu',
+            path='/admin/menu',
+            icon='',
+            parent_id=myMenuSetting.id
+        )
+        db.session.add(mySubMenuMenu)
         db.session.commit()
 
         # default assign menu for group admin

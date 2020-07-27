@@ -12,35 +12,35 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator'
-import Pagination from '@/components/Layout/Pagination/index.vue'
-import Breadcrumbs from '@/components/Layout/Breadcrumbs/index.vue'
-import MenuItems from '@/components/Admin/Menu/Items/index.vue'
+import { Vue, Component } from "vue-property-decorator";
+import Pagination from "@/components/Layout/Pagination/index.vue";
+import Breadcrumbs from "@/components/Layout/Breadcrumbs/index.vue";
+import MenuItems from "@/components/Admin/Menu/Items/index.vue";
 
 @Component({
-  name: 'user-page',
+  name: "user-page",
   components: {
     Pagination,
     Breadcrumbs,
-    MenuItems,
-  },
+    MenuItems
+  }
 })
 export default class MenuPage extends Vue {
   bc: any = [
     {
-      title: this.$t('menu.Menu'),
-      url: '/admin/menu',
-      active: false,
+      title: "menu.Menu",
+      url: "/admin/menu",
+      active: false
     },
     {
-      title: this.$t('menu.List'),
-      url: '',
-      active: true,
-    },
-  ]
+      title: "menu.List",
+      url: "",
+      active: true
+    }
+  ];
 }
 </script>
 
 <style lang="scss" module>
-@import './style.module.scss';
+@import "./style.module.scss";
 </style>
