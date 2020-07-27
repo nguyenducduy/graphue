@@ -11,7 +11,8 @@
         v-else
         :style="`backgroundColor: ${loggedUser.status.color}`"
         :class="$style.avatar"
-      >{{ loggedUser.fullName[0] }}</a-avatar>
+        >{{ loggedUser.fullName[0] }}</a-avatar
+      >
       <!-- </a-badge> -->
     </div>
     <a-menu slot="overlay">
@@ -22,9 +23,7 @@
           <p class="mt-1">
             You logged in as
             <a-tag :color="loggedUser.group.color">
-              {{
-              loggedUser.group.screenName
-              }}
+              {{ loggedUser.group.screenName }}
             </a-tag>
           </p>
         </div>
@@ -38,7 +37,10 @@
       </a-menu-item>
       <a-menu-divider />
       <a-menu-item>
-        <a href="javascript: void(0);" @click="$bus.$emit('users.changepassword.show')">
+        <a
+          href="javascript: void(0);"
+          @click="$bus.$emit('users.changepassword.show')"
+        >
           <i :class="$style.menuIcon" class="fa fa-key"></i> Đổi mật khẩu
         </a>
       </a-menu-item>

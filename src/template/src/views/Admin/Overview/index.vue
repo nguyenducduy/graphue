@@ -1,9 +1,10 @@
 <template>
   <div :class="$style.content">
     <div class="row">
-      <div class="col-lg-6">
+      <div class="col-lg-12">
         <breadcrumbs :data="bc" />
       </div>
+      <div class="col-lg-12">Documentation at http://abc.xyz</div>
     </div>
   </div>
 </template>
@@ -20,11 +21,6 @@ import Breadcrumbs from "@/components/LayoutComponents/Breadcrumbs/index.vue";
 })
 export default class OverviewPage extends Vue {
   bc: any = [
-    // {
-    //   title: "Overview",
-    //   url: "/admin/overview",
-    //   active: false
-    // },
     {
       title: "Overview",
       url: "",

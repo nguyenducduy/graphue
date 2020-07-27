@@ -5,7 +5,6 @@ import LoginLayout from '@/layout/Login/index.vue'
 import AdminLayout from '@/layout/Admin/index.vue'
 
 const host = window.location.host
-const parts = host.split('.')
 
 Vue.use(VueRouter)
 
@@ -25,39 +24,46 @@ const routes: Array<RouteConfig> = [
       {
         path: '/admin/overview',
         meta: {
-          title: `${parts[0]} - Overview`,
+          title: 'Overview',
         },
-        component: () => import('../views/Admin/Overview/index.vue'),
+        component: () => import(/* webpackChunkName: "admin_overview" */ '../views/Admin/Overview/index.vue'),
       },
       {
         path: '/admin/user',
         meta: {
-          title: `${parts[0]} - User`,
+          title: 'User',
         },
-        component: () => import('../views/Admin/User/index.vue'),
+        component: () => import(/* webpackChunkName: "admin_user" */ '../views/Admin/User/index.vue'),
       },
       {
         path: '/admin/permission',
         meta: {
-          title: `${parts[0]} - Permission`,
+          title: 'Permission',
         },
-        component: () => import('../views/Admin/Permission/index.vue'),
+        component: () => import(/* webpackChunkName: "admin_permission" */ '../views/Admin/Permission/index.vue'),
       },
       {
         path: '/admin/group',
         meta: {
-          title: `${parts[0]} - Group`,
+          title: 'Group',
         },
-        component: () => import('../views/Admin/Group/index.vue'),
+        component: () => import(/* webpackChunkName: "admin_group" */ '../views/Admin/Group/index.vue'),
       },
       {
         path: '/admin/menu',
         meta: {
-          title: `${parts[0]} - Menu`,
+          title: 'Menu',
         },
-        component: () => import('../views/Admin/Menu/index.vue'),
+        component: () => import(/* webpackChunkName: "admin_menu" */ '../views/Admin/Menu/index.vue'),
       },
     ],
+  },
+
+  // site pages
+  {
+    path: '/',
+    redirect: '/admin/overview',
+    component: AdminLayout,
   },
 
   // Non permmission pages
@@ -68,19 +74,14 @@ const routes: Array<RouteConfig> = [
       {
         path: '/admin/login',
         meta: {
-          title: `${parts[0]} - Login`,
+          title: 'views.login.SignIn',
         },
-        component: () => import('../views/Admin/Login/index.vue'),
+        component: () => import(/* webpackChunkName: "admin_login" */ '../views/Admin/Login/index.vue'),
       },
-      // {
-      //   path: '/admin/forgot',
-      //   meta: {
-      //     title: 'Forgot Password',
-      //   },
-      //   component: () => import('./views/user/forgot'),
-      // },
     ],
   },
+
+  // installation path
   {
     path: '/install',
     component: LoginLayout,
@@ -88,18 +89,35 @@ const routes: Array<RouteConfig> = [
       {
         path: '/install',
         meta: {
-          title: `${parts[0]} - Installation`,
+          title: 'Installation',
         },
-        component: () => import('../views/Install/index.vue'),
+        component: () => import(/* webpackChunkName: "admin_install" */ '../views/Install/index.vue'),
       },
     ],
   },
+
+  // google auth redirect
   {
     path: '/oauth/:provider',
     meta: {
-      title: `${parts[0]} - Oauth`,
+      title: 'Oauth',
     },
-    component: () => import('../views/oauth.vue'),
+    component: () => import(/* webpackChunkName: "oauth_verified" */ '../views/oauth.vue'),
+  },
+
+  // 404
+  {
+    path: '/404',
+    meta: {
+      title: '404',
+    },
+    component: require('@/views/404').default,
+  },
+
+  // Redirect to 404
+  {
+    path: '*',
+    redirect: '/404',
   },
 ]
 

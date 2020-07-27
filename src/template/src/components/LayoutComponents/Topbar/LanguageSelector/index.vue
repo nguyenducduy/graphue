@@ -1,24 +1,17 @@
 <template>
   <a-dropdown :trigger="['click']" placement="bottomLeft">
     <div :class="$style.dropdown">
-      <strong class="text-uppercase">En</strong>
+      <strong>
+        {{ languageIcons[currentLang] }}
+        {{ languageLabels[currentLang] }}
+      </strong>
     </div>
-    <a-menu slot="overlay">
-      <a-menu-item>
-        <span role="img" aria-label="English" class="mr-2">🇬🇧</span>
-        English
-      </a-menu-item>
-      <a-menu-item>
-        <span role="img" aria-label="French" class="mr-2">🇫🇷</span>
-        French
-      </a-menu-item>
-      <a-menu-item>
-        <span role="img" aria-label="Русский" class="mr-2">🇷🇺</span>
-        Русский
-      </a-menu-item>
-      <a-menu-item>
-        <span role="img" aria-label="简体中文" class="mr-2">🇨🇳</span>
-        简体中文
+    <a-menu slot="overlay" :selectedKeys="[currentLang]" @click="changeLang">
+      <a-menu-item v-for="locale in locales" :key="locale">
+        <span role="img" :aria-label="locale" class="mr-2">
+          {{ languageIcons[locale] }}
+        </span>
+        {{ languageLabels[locale] }}
       </a-menu-item>
     </a-menu>
   </a-dropdown>
@@ -26,11 +19,31 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
+import { i18nRender } from "@/locales";
+import { State, Mutation } from "vuex-class";
 
 @Component({
   name: "language-selector"
 })
-export default class LanguageSelector extends Vue {}
+export default class LanguageSelector extends Vue {
+  @State(state => state.lang) currentLang;
+  @Mutation("CHANGE_LOCALE") changeLocale;
+
+  locales: any = ["en-US", "vi-VN"];
+  languageLabels: any = {
+    "en-US": "English",
+    "vi-VN": "Tiếng việt"
+  };
+  // https://www.alt-codes.net/flags
+  languageIcons = {
+    "en-US": "🇺🇸",
+    "vi-VN": "🇻🇳"
+  };
+
+  changeLang({ key }) {
+    this.changeLocale(key);
+  }
+}
 </script>
 
 <style lang="scss" module>

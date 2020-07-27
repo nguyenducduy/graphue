@@ -15,9 +15,12 @@ app = create_app()
 socketio = SocketIO(
     app, async_mode='eventlet', cors_allowed_origins=app.config['ALLOW_ORIGINS'], message_queue=app.config['REDIS_URI'],  manage_session=False)
 
-# check menu, permission
+
 @socketio.on('check_menu_permission_change')
 def check(groupId):
+    """
+    Check menu, permission change then emit to frontend to take effect at each enter page.
+    """
     myGroup = Group.query.get(groupId)
     if not myGroup:
         raise Exception(_('Group not found'))
@@ -47,6 +50,9 @@ def check(groupId):
 
 
 def cat_to_json(item):
+    """
+    Turn nested dictionary to json
+    """
     return {
         'id': item.id,
         'name': item.name,
@@ -57,7 +63,9 @@ def cat_to_json(item):
 
 
 if __name__ == '__main__':
-    # run app
+    """
+    Run app
+    """
     log = logging.getLogger(__name__)
     log.info(
         '----- Serving SOCKET-IO at {} -----'.format(app.config['BASE_URI']))

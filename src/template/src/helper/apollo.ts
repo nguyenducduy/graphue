@@ -8,8 +8,14 @@ import { notification } from 'ant-design-vue'
 const getHeaders = () => {
   const headers = {}
   const token = window.localStorage['Access-Token']
+  const currentLang = window.localStorage['lang']
+
   if (token) {
     headers['Authorization'] = `Bearer ${JSON.parse(token)['value']}`
+  }
+
+  if (currentLang) {
+    headers['Accept-Language'] = JSON.parse(currentLang)['value']
   }
 
   return headers
@@ -18,15 +24,11 @@ const getHeaders = () => {
 // Error Handling
 const errorLink = onError(({ graphQLErrors, networkError }) => {
   if (graphQLErrors)
-    graphQLErrors.map(
-      ({ message, locations, path }) =>
-        notification.error({
-          message: message,
-          description: path as any,
-        })
-      // console.log(
-      //   `[GraphQL error]: Message: ${message}, Location: ${locations}, Path: ${path}`
-      // )
+    graphQLErrors.map(({ message, locations, path }) =>
+      notification.error({
+        message: message,
+        description: path as any,
+      })
     )
   if (networkError) {
     console.log(networkError)

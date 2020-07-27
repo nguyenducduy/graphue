@@ -7,6 +7,7 @@ import 'v-contextmenu/dist/index.css'
 
 // import base library
 import {
+  ConfigProvider,
   Modal,
   Alert,
   Avatar,
@@ -52,6 +53,8 @@ import io from 'socket.io-client'
 //common admin component
 import DeleteButton from '@/components/Admin/DeleteButton/index.vue'
 import SearchInput from '@/components/Admin/SearchInput/index.vue'
+Vue.component('d-button', DeleteButton)
+Vue.component('s-input', SearchInput)
 
 //global event bus
 const EventBus = new Vue()
@@ -61,16 +64,22 @@ Vue.prototype.$bus = EventBus
 const socket = io(`${process.env.VUE_APP_SOCKETIO_URI}`, {
   transports: ['websocket'],
 })
-
 Vue.use(VueSocketIOExt, socket)
+
+//google oauth
 Vue.use(VueAuthenticate, settings.googleAuthOptions)
+
+//local storage helper
 Vue.use(VueStorage, settings.storageOptions)
+
+//vu2 filter
 Vue.use(Vue2Filters, settings.vue2filterOptions)
 Vue.use(contextmenu)
-Vue.component('Can', Can)
-Vue.component('d-button', DeleteButton)
-Vue.component('s-input', SearchInput)
 
+//casl
+Vue.component('Can', Can)
+
+Vue.use(ConfigProvider)
 Vue.use(Modal)
 Vue.use(Avatar)
 Vue.use(Alert)
@@ -105,5 +114,6 @@ Vue.use(Result)
 Vue.use(Popconfirm)
 Vue.use(BackTop)
 
+//notification
 notification.config(settings.notification)
 Vue.prototype.$notification = notification

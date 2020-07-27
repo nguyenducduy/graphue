@@ -14,7 +14,7 @@ git clone ...
 cd sr
 pyenv install 3.6.10
 pyenv virtualenv 3.6.10 graphue
-pyenv local 3.6.10 graphue
+pyenv local graphue
 pip install -r requirements.txt
 ```
 

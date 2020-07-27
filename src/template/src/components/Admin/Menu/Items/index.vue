@@ -7,17 +7,18 @@
             <template slot="description">
               - Click on
               <strong>Category name</strong> to modify selected category.
-              <br />- Right on
-              <strong>Category name</strong> to
+              <br />- Right on <strong>Category name</strong> to
               <strong class="text-primary">
                 <a-icon type="plus" />Add new Category
               </strong>
               inside selected category or
               <strong class="text-danger">
-                <a-icon type="delete" />Delete selected category
-              </strong>.
+                <a-icon type="delete" />Delete selected category </strong
+              >.
             </template>
           </a-alert>
+        </div>
+        <div class="col-lg-3">
           <a-tree
             v-contextmenu:contextMenuContainer
             class="box-white mt-2"

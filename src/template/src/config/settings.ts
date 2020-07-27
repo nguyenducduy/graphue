@@ -1,65 +1,65 @@
 export default {
-  production:
-    process.env.NODE_ENV === "production" &&
-    process.env.VUE_APP_PREVIEW !== "true",
+  title: 'Graphue',
+
+  production: process.env.NODE_ENV === 'production' && process.env.VUE_APP_PREVIEW !== 'true',
 
   // google auth options
   googleAuthOptions: {
-    storageType: "cookieStorage",
+    storageType: 'cookieStorage',
     providers: {
       google: {
-        requiredUrlParams: ["scope", "access_type", "prompt"],
+        requiredUrlParams: ['scope', 'access_type', 'prompt'],
         clientId: process.env.VUE_APP_GOOGLE_OAUTH_CLIENT_ID,
         redirectUri: process.env.VUE_APP_GOOGLE_OAUTH_REDIRECT_URI,
-        accessType: "offline",
-        prompt: "consent"
-      }
-    }
+        accessType: 'offline',
+        prompt: 'consent',
+      },
+    },
   },
 
   // vue-ls options
   storageOptions: {
-    name: "ls", // name variable Vue.[ls] or this.[$ls],
-    storage: "local" // storage name session, local, memory
+    name: 'ls', // name variable Vue.[ls] or this.[$ls],
+    storage: 'local', // storage name session, local, memory
   },
 
   // vue2filter options
   vue2filterOptions: {
     capitalize: {
-      onlyFirstLetter: false
+      onlyFirstLetter: false,
     },
     number: {
-      format: "0",
-      thousandsSeparator: ",",
-      decimalSeparator: "."
+      format: '0',
+      thousandsSeparator: ',',
+      decimalSeparator: '.',
     },
     bytes: {
-      decimalDigits: 2
+      decimalDigits: 2,
     },
     percent: {
       decimalDigits: 2,
-      multiplier: 100
+      multiplier: 100,
     },
     currency: {
-      symbol: "$",
+      symbol: '$',
       decimalDigits: 2,
-      thousandsSeparator: ",",
-      decimalSeparator: ".",
+      thousandsSeparator: ',',
+      decimalSeparator: '.',
       symbolOnLeft: true,
       spaceBetweenAmountAndSymbol: false,
-      showPlusSign: false
+      showPlusSign: false,
     },
     pluralize: {
-      includeNumber: false
+      includeNumber: false,
     },
     ordinal: {
-      includeNumber: false
-    }
+      includeNumber: false,
+    },
   },
 
   //notification
   notification: {
-    placement: "bottomLeft",
-    duration: 5
-  }
-};
+    placement: 'bottomLeft',
+    duration: 5,
+  },
+}

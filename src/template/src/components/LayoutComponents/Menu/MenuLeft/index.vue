@@ -26,9 +26,9 @@
             <a-menu-item
               :key="`${item.id}-${item.path}`"
               v-if="
-                  typeof item.children === 'undefined' ||
-                  item.children.length == 0 &&
-                  accessMenu.some(e => e.id == item.id)
+                typeof item.children === 'undefined' ||
+                  (item.children.length == 0 &&
+                    accessMenu.some(e => e.id == item.id))
               "
             >
               <router-link v-if="item.path !== ''" :to="item.path">
@@ -44,7 +44,7 @@
             <a-sub-menu
               v-if="
                 typeof item.children !== 'undefined' &&
-                item.children.length > 0 &&
+                  item.children.length > 0 &&
                   accessMenu.some(e => e.id == item.id)
               "
               :key="`${item.id}-${item.path}`"

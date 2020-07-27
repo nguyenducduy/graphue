@@ -86,7 +86,13 @@
           </div>
         </div>
       </a-form>
-      <a-button icon="double-right" type="primary" @click="onSubmit" :loading="loading">Enter site</a-button>
+      <a-button
+        icon="double-right"
+        type="primary"
+        @click="onSubmit"
+        :loading="loading"
+        >Enter site</a-button
+      >
     </template>
   </a-result>
 </template>

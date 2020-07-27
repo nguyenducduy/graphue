@@ -11,7 +11,7 @@ class AuthorizationMiddleware(object):
             if info.field_name not in Config.PUBLIC_SCHEMA:
                 print('[INFO] middleware:auth - schema: ' + info.field_name)
                 # print(info.context.headers.get('Authorization'))
-                # print(info.context.headers.get('Accept-Language'))
+                print(info.context.headers.get('Accept-Language'))
 
                 auth_resp = decode_auth_token(
                     info.context.headers.get('Authorization'))

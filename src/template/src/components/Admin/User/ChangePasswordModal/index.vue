@@ -1,5 +1,11 @@
 <template>
-  <a-modal centered :maskClosable="false" destroyOnClose v-model="visible" onOk="onSubmit">
+  <a-modal
+    centered
+    :maskClosable="false"
+    destroyOnClose
+    v-model="visible"
+    onOk="onSubmit"
+  >
     <div slot="title">Change password</div>
     <div class="row">
       <div class="col-lg-12">
@@ -10,19 +16,19 @@
                 <a-input
                   type="password"
                   v-decorator="[
-                        'password',
+                    'password',
+                    {
+                      rules: [
                         {
-                          rules: [
-                            {
-                              required: true,
-                              message: 'Vui lòng điền mật khẩu'
-                            },
-                            {
-                              validator: __validateToNextPassword
-                            }
-                          ]
+                          required: true,
+                          message: 'Vui lòng điền mật khẩu'
+                        },
+                        {
+                          validator: __validateToNextPassword
                         }
-                      ]"
+                      ]
+                    }
+                  ]"
                 />
               </a-form-item>
             </div>
@@ -32,19 +38,19 @@
                   type="password"
                   @blur="__handleConfirmPasswordBlur"
                   v-decorator="[
-                        'confirm',
+                    'confirm',
+                    {
+                      rules: [
                         {
-                          rules: [
-                            {
-                              required: true,
-                              message: 'Vui lòng điền nhập lại mật khẩu'
-                            },
-                            {
-                              validator: __compareToFirstPassword
-                            }
-                          ]
+                          required: true,
+                          message: 'Vui lòng điền nhập lại mật khẩu'
+                        },
+                        {
+                          validator: __compareToFirstPassword
                         }
-                      ]"
+                      ]
+                    }
+                  ]"
                 />
               </a-form-item>
             </div>
@@ -54,7 +60,14 @@
     </div>
     <template slot="footer">
       <a-button key="back" @click="visible = false">Cancel</a-button>
-      <a-button key="submit" type="primary" icon="save" :loading="loading" @click="onSubmit">Lưu</a-button>
+      <a-button
+        key="submit"
+        type="primary"
+        icon="save"
+        :loading="loading"
+        @click="onSubmit"
+        >Lưu</a-button
+      >
     </template>
   </a-modal>
 </template>
@@ -135,4 +148,3 @@ export default class ChangePasswordModal extends Vue {
   }
 }
 </script>
-
