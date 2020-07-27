@@ -11,7 +11,7 @@ class Menu(db.Model, BaseNestedSets):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String(150), index=True)
-    path = Column(String(150), index=True, unique=True)
+    path = Column(String(150), index=True)
     icon = Column(String(50))
     created_at = Column(Integer, nullable=False)
     updated_at = Column(Integer)
