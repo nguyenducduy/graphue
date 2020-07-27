@@ -85,6 +85,10 @@ class LoginUser(graphene.Mutation):
 
     def mutate(self, info, **kwargs):
         myUser = User.query.filter_by(email=kwargs.get('email')).first()
+
+        if myUser is None:
+            raise Exception(_('User not found'))
+
         # generate menus for logged user
         output = []
         for item in myUser.group.menus:

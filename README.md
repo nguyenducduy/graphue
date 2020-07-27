@@ -93,10 +93,17 @@ cd src
 pybabel update -i messages.pot -d app/language
 ```
 
+- Compile translation files to take effect
+
+```
+cd src
+pybabel compile -d app/translations
+```
+
 - All in one line
 
 ```
-pybabel extract -F babel.cfg -o messages.pot . && pybabel update -i messages.pot -d app/language && pybabel compile -d app/translations
+pybabel extract -F babel.cfg -o messages.pot . && pybabel update -i messages.pot -d app/translations && pybabel compile -d app/translations
 ```
 
 ### AB test

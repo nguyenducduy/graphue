@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2020-07-10 13:54+0700\n"
+"POT-Creation-Date: 2020-07-27 10:52+0700\n"
 "PO-Revision-Date: 2020-07-10 11:59+0700\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: en\n"
@@ -18,7 +18,55 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.8.0\n"
 
-#: app/middleware/auth.py:24
-msgid "User not found."
+#: app/middleware/auth.py:25
+msgid "Authenticate user not found"
 msgstr ""
+
+#: app/middleware/auth.py:34
+msgid "Forbidden"
+msgstr ""
+
+#: app/middleware/auth.py:40
+msgid "Authenticate failed"
+msgstr ""
+
+#: app/rest/install/default.py:15
+msgid "Administrator"
+msgstr ""
+
+#: app/rest/install/default.py:17
+msgid "Moderator"
+msgstr ""
+
+#: app/rest/install/default.py:19
+msgid "Member"
+msgstr ""
+
+#: app/rest/install/default.py:21
+msgid "Guest"
+msgstr ""
+
+#: app/schema/mutations/group.py:41 app/schema/mutations/group.py:60
+#: app/schema/mutations/group.py:77 app/schema/mutations/group.py:118
+msgid "Group not found"
+msgstr ""
+
+#: app/schema/mutations/permission.py:36 app/schema/mutations/permission.py:54
+msgid "Permission not found"
+msgstr ""
+
+#: app/schema/mutations/user.py:52 app/schema/mutations/user.py:71
+#: app/schema/mutations/user.py:90 app/schema/mutations/user.py:128
+msgid "User not found"
+msgstr ""
+
+#: app/schema/mutations/user.py:102
+msgid "Invalid credentials"
+msgstr "Wrong password"
+
+#~ msgid "User not found."
+#~ msgstr ""
+
+#~ msgid "Invalid credentials 2"
+#~ msgstr ""
 

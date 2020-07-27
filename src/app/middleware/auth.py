@@ -7,11 +7,12 @@ from flask_babel import _
 class AuthorizationMiddleware(object):
     def resolve(self, next, root, info, **kwargs):
         if root is None:
+            print(info.context.headers.get('Accept-Language'))
+
             # This will only be called once for a request
             if info.field_name not in Config.PUBLIC_SCHEMA:
                 print('[INFO] middleware:auth - schema: ' + info.field_name)
                 # print(info.context.headers.get('Authorization'))
-                print(info.context.headers.get('Accept-Language'))
 
                 auth_resp = decode_auth_token(
                     info.context.headers.get('Authorization'))
