@@ -45,9 +45,9 @@
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
 import { Mutation, State } from "vuex-class";
-import MenuLeft from "@/components/LayoutComponents/Menu/MenuLeft/index.vue";
-import Topbar from "@/components/LayoutComponents/Topbar/index.vue";
-import VuFooter from "@/components/LayoutComponents/Footer/index.vue";
+import MenuLeft from "@/components/Layout/Menu/MenuLeft/index.vue";
+import Topbar from "@/components/Layout/Topbar/index.vue";
+import VuFooter from "@/components/Layout/Footer/index.vue";
 import ChangePasswordModal from "@/components/Admin/User/ChangePasswordModal/index.vue";
 
 @Component({

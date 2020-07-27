@@ -1,25 +1,25 @@
-import Vue from 'vue'
-import ApolloClient from 'apollo-client'
-import { createUploadLink } from 'apollo-upload-client'
-import { InMemoryCache } from 'apollo-cache-inmemory'
-import { onError } from 'apollo-link-error'
-import { notification } from 'ant-design-vue'
+import Vue from "vue";
+import ApolloClient from "apollo-client";
+import { createUploadLink } from "apollo-upload-client";
+import { InMemoryCache } from "apollo-cache-inmemory";
+import { onError } from "apollo-link-error";
+import { notification } from "ant-design-vue";
 
 const getHeaders = () => {
-  const headers = {}
-  const token = window.localStorage['Access-Token']
-  const currentLang = window.localStorage['lang']
+  const headers = {};
+  const token = window.localStorage["Access-Token"];
+  const currentLang = window.localStorage["lang"];
 
   if (token) {
-    headers['Authorization'] = `Bearer ${JSON.parse(token)['value']}`
+    headers["Authorization"] = `Bearer ${JSON.parse(token)["value"]}`;
   }
 
   if (currentLang) {
-    headers['Accept-Language'] = JSON.parse(currentLang)['value']
+    headers["Accept-Language"] = JSON.parse(currentLang)["value"];
   }
 
-  return headers
-}
+  return headers;
+};
 
 // Error Handling
 const errorLink = onError(({ graphQLErrors, networkError }) => {
@@ -27,33 +27,32 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
     graphQLErrors.map(({ message, locations, path }) =>
       notification.error({
         message: message,
-        description: path as any,
+        description: path as any
       })
-    )
+    );
   if (networkError) {
-    console.log(networkError)
     notification.error({
-      message: 'Network error',
-      description: networkError.toString(),
-    })
+      message: "Network error",
+      description: networkError.toString()
+    });
   }
-})
+});
 
 export default new ApolloClient({
   link: errorLink.concat(
     createUploadLink({
       uri: `${process.env.VUE_APP_GRAPHQL_URI}`,
-      headers: getHeaders(),
+      headers: getHeaders()
     })
   ),
   cache: new InMemoryCache(),
   connectToDevTools: true,
   defaultOptions: {
     watchQuery: {
-      fetchPolicy: 'network-only',
+      fetchPolicy: "network-only"
     },
     query: {
-      fetchPolicy: 'network-only',
-    },
-  },
-})
+      fetchPolicy: "network-only"
+    }
+  }
+});

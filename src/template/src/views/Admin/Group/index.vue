@@ -19,8 +19,8 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
-import Pagination from "@/components/LayoutComponents/Pagination/index.vue";
-import Breadcrumbs from "@/components/LayoutComponents/Breadcrumbs/index.vue";
+import Pagination from "@/components/Layout/Pagination/index.vue";
+import Breadcrumbs from "@/components/Layout/Breadcrumbs/index.vue";
 import GroupItems from "@/components/Admin/Group/Items/index.vue";
 import GroupAddDrawer from "@/components/Admin/Group/Add/index.vue";
 import GroupEditDrawer from "@/components/Admin/Group/Edit/index.vue";

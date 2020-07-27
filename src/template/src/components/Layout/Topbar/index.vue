@@ -7,8 +7,8 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
-import ProfileMenu from "@/components/LayoutComponents/Topbar/ProfileMenu/index.vue";
-import LanguageSelector from "@/components/LayoutComponents/Topbar/LanguageSelector/index.vue";
+import ProfileMenu from "@/components/Layout/Topbar/ProfileMenu/index.vue";
+import LanguageSelector from "@/components/Layout/Topbar/LanguageSelector/index.vue";
 
 @Component({
   name: "topbar",

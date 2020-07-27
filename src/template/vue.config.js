@@ -1,34 +1,38 @@
-const webpack = require('webpack')
-const antdTheme = require('./src/theme.js')
-const path = require('path')
+const path = require("path");
+const webpack = require("webpack");
+const GitRevisionPlugin = require("git-revision-webpack-plugin");
+const GitRevision = new GitRevisionPlugin();
+const buildDate = JSON.stringify(new Date().toLocaleString());
+const antdTheme = require("./src/theme.js");
+
 function resolve(dir) {
-  return path.join(__dirname, dir)
+  return path.join(__dirname, dir);
 }
 
-const isProd = process.env.NODE_ENV === 'production'
+const isProd = process.env.NODE_ENV === "production";
 
 const assetsCDN = {
   // webpack build externals
   externals: {
-    vue: 'Vue',
-    'vue-router': 'VueRouter',
-    vuex: 'Vuex',
-    axios: 'axios',
+    Vue: "Vue",
+    VueRouter: "VueRouter",
+    Vuex: "Vuex",
+    Axios: "axios"
   },
   css: [],
   // https://unpkg.com/browse/vue@2.6.10/
   js: [
-    '//cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.min.js',
-    '//cdn.jsdelivr.net/npm/vue-router@3.1.3/dist/vue-router.min.js',
-    '//cdn.jsdelivr.net/npm/vuex@3.1.1/dist/vuex.min.js',
-    '//cdn.jsdelivr.net/npm/axios@0.19.0/dist/axios.min.js',
-  ],
-}
+    "//cdn.jsdelivr.net/npm/vue@2.6.10/dist/vue.min.js",
+    "//cdn.jsdelivr.net/npm/vue-router@3.1.3/dist/vue-router.min.js",
+    "//cdn.jsdelivr.net/npm/vuex@3.1.1/dist/vuex.min.js",
+    "//cdn.jsdelivr.net/npm/axios@0.19.0/dist/axios.min.js"
+  ]
+};
 
 module.exports = {
   lintOnSave: true,
   devServer: {
-    disableHostCheck: true,
+    disableHostCheck: true
   },
   // disable source map in production
   productionSourceMap: false,
@@ -36,14 +40,19 @@ module.exports = {
   transpileDependencies: [],
   configureWebpack: {
     performance: {
-      hints: false,
+      hints: false
     },
     plugins: [
       // Ignore all locale files of moment.js
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
+      new webpack.DefinePlugin({
+        APP_VERSION: `"${require("./package.json").version}"`,
+        GIT_HASH: JSON.stringify(GitRevision.version()),
+        BUILD_DATE: buildDate
+      })
     ],
     // if prod, add externals
-    externals: isProd ? assetsCDN.externals : {},
+    externals: isProd ? assetsCDN.externals : {}
     // optimization: {
     //   splitChunks: '{
     //     minSize: 50000,
@@ -51,45 +60,45 @@ module.exports = {
     //   }'
     // }
   },
-  chainWebpack: (config) => {
-    config.plugins.delete('prefetch')
-    config.resolve.alias.set('@$', resolve('src'))
+  chainWebpack: config => {
+    config.plugins.delete("prefetch");
+    config.resolve.alias.set("@$", resolve("src"));
 
-    const svgRule = config.module.rule('svg')
-    svgRule.uses.clear()
+    const svgRule = config.module.rule("svg");
+    svgRule.uses.clear();
     svgRule
-      .oneOf('inline')
+      .oneOf("inline")
       .resourceQuery(/inline/)
-      .use('vue-svg-icon-loader')
-      .loader('vue-svg-icon-loader')
+      .use("vue-svg-icon-loader")
+      .loader("vue-svg-icon-loader")
       .end()
       .end()
-      .oneOf('external')
-      .use('file-loader')
-      .loader('file-loader')
+      .oneOf("external")
+      .use("file-loader")
+      .loader("file-loader")
       .options({
-        name: 'assets/[name].[hash:8].[ext]',
-      })
+        name: "assets/[name].[hash:8].[ext]"
+      });
 
     config.module
-      .rule('tsx')
+      .rule("tsx")
       .test(/\.tsx$/)
-      .use('vue-jsx-hot-loader')
-      .before('babel-loader')
-      .loader('vue-jsx-hot-loader')
+      .use("vue-jsx-hot-loader")
+      .before("babel-loader")
+      .loader("vue-jsx-hot-loader");
 
-    config.plugin('html').tap((args) => {
-      args[0].chunksSortMode = 'none'
-      return args
-    })
+    config.plugin("html").tap(args => {
+      args[0].chunksSortMode = "none";
+      return args;
+    });
 
     // if prod is on
     // assets require on cdn
     if (isProd) {
-      config.plugin('html').tap((args) => {
-        args[0].cdn = assetsCDN
-        return args
-      })
+      config.plugin("html").tap(args => {
+        args[0].cdn = assetsCDN;
+        return args;
+      });
     }
   },
   css: {
@@ -97,9 +106,9 @@ module.exports = {
       less: {
         lessOptions: {
           modifyVars: antdTheme,
-          javascriptEnabled: true,
-        },
-      },
-    },
-  },
-}
+          javascriptEnabled: true
+        }
+      }
+    }
+  }
+};

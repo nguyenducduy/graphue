@@ -1,164 +1,186 @@
-import Vue from 'vue'
-import VueRouter, { RouteConfig } from 'vue-router'
-import store from '@/store'
-import LoginLayout from '@/layout/Login/index.vue'
-import AdminLayout from '@/layout/Admin/index.vue'
+import Vue from "vue";
+import VueRouter, { RouteConfig } from "vue-router";
+import store from "@/store";
+import LoginLayout from "@/layout/Login/index.vue";
+import AdminLayout from "@/layout/Admin/index.vue";
 
-const host = window.location.host
+const host = window.location.host;
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes: Array<RouteConfig> = [
   // admin pages
   {
-    path: '/admin',
-    redirect: (to) => ({
-      path: '/admin/overview',
+    path: "/admin",
+    redirect: to => ({
+      path: "/admin/overview"
       // query: { sort: "id.descend" }
     }),
     component: AdminLayout,
     meta: {
-      authRequired: true,
+      authRequired: true
     },
     children: [
       {
-        path: '/admin/overview',
+        path: "/admin/overview",
         meta: {
-          title: 'Overview',
+          title: "Overview"
         },
-        component: () => import(/* webpackChunkName: "admin_overview" */ '../views/Admin/Overview/index.vue'),
+        component: () =>
+          import(
+            /* webpackChunkName: "admin_overview" */ "../views/Admin/Overview/index.vue"
+          )
       },
       {
-        path: '/admin/user',
+        path: "/admin/user",
         meta: {
-          title: 'User',
+          title: "User"
         },
-        component: () => import(/* webpackChunkName: "admin_user" */ '../views/Admin/User/index.vue'),
+        component: () =>
+          import(
+            /* webpackChunkName: "admin_user" */ "../views/Admin/User/index.vue"
+          )
       },
       {
-        path: '/admin/permission',
+        path: "/admin/permission",
         meta: {
-          title: 'Permission',
+          title: "Permission"
         },
-        component: () => import(/* webpackChunkName: "admin_permission" */ '../views/Admin/Permission/index.vue'),
+        component: () =>
+          import(
+            /* webpackChunkName: "admin_permission" */ "../views/Admin/Permission/index.vue"
+          )
       },
       {
-        path: '/admin/group',
+        path: "/admin/group",
         meta: {
-          title: 'Group',
+          title: "Group"
         },
-        component: () => import(/* webpackChunkName: "admin_group" */ '../views/Admin/Group/index.vue'),
+        component: () =>
+          import(
+            /* webpackChunkName: "admin_group" */ "../views/Admin/Group/index.vue"
+          )
       },
       {
-        path: '/admin/menu',
+        path: "/admin/menu",
         meta: {
-          title: 'Menu',
+          title: "Menu"
         },
-        component: () => import(/* webpackChunkName: "admin_menu" */ '../views/Admin/Menu/index.vue'),
-      },
-    ],
+        component: () =>
+          import(
+            /* webpackChunkName: "admin_menu" */ "../views/Admin/Menu/index.vue"
+          )
+      }
+    ]
   },
 
   // site pages
   {
-    path: '/',
-    redirect: '/admin/overview',
-    component: AdminLayout,
+    path: "/",
+    redirect: "/admin/overview",
+    component: AdminLayout
   },
 
   // Non permmission pages
   {
-    path: '/admin/login',
+    path: "/admin/login",
     component: LoginLayout,
     children: [
       {
-        path: '/admin/login',
+        path: "/admin/login",
         meta: {
-          title: 'views.login.SignIn',
+          title: "views.login.SignIn"
         },
-        component: () => import(/* webpackChunkName: "admin_login" */ '../views/Admin/Login/index.vue'),
-      },
-    ],
+        component: () =>
+          import(
+            /* webpackChunkName: "admin_login" */ "../views/Admin/Login/index.vue"
+          )
+      }
+    ]
   },
 
   // installation path
   {
-    path: '/install',
+    path: "/install",
     component: LoginLayout,
     children: [
       {
-        path: '/install',
+        path: "/install",
         meta: {
-          title: 'Installation',
+          title: "Installation"
         },
-        component: () => import(/* webpackChunkName: "admin_install" */ '../views/Install/index.vue'),
-      },
-    ],
+        component: () =>
+          import(
+            /* webpackChunkName: "admin_install" */ "../views/Install/index.vue"
+          )
+      }
+    ]
   },
 
   // google auth redirect
   {
-    path: '/oauth/:provider',
+    path: "/oauth/:provider",
     meta: {
-      title: 'Oauth',
+      title: "Oauth"
     },
-    component: () => import(/* webpackChunkName: "oauth_verified" */ '../views/oauth.vue'),
+    component: () =>
+      import(/* webpackChunkName: "oauth_verified" */ "../views/oauth.vue")
   },
 
   // 404
   {
-    path: '/404',
+    path: "/404",
     meta: {
-      title: '404',
+      title: "404"
     },
-    component: require('@/views/404').default,
+    component: require("@/views/404").default
   },
 
   // Redirect to 404
   {
-    path: '*',
-    redirect: '/404',
-  },
-]
+    path: "*",
+    redirect: "/404"
+  }
+];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
-  routes,
-})
+  routes
+});
 
 router.beforeEach((to, from, next) => {
-  if (to.matched.some((record) => record.meta.authRequired)) {
-    const loggedToken = Vue.ls.get('Access-Token')
-    const loggedUser = Vue.ls.get('Logged-User')
-    const allMenus = Vue.ls.get('All-Menu')
-    const accessMenus = Vue.ls.get('Access-Menu')
-    const accessPermission = Vue.ls.get('Access-Permission')
+  if (to.matched.some(record => record.meta.authRequired)) {
+    const loggedToken = Vue.ls.get("Access-Token");
+    const loggedUser = Vue.ls.get("Logged-User");
+    const allMenus = Vue.ls.get("All-Menu");
+    const accessMenus = Vue.ls.get("Access-Menu");
+    const accessPermission = Vue.ls.get("Access-Permission");
 
     if (!loggedToken) {
       return next({
-        path: '/admin/login',
-        query: { redirect: to.fullPath },
-      })
+        path: "/admin/login",
+        query: { redirect: to.fullPath }
+      });
     }
 
     // set Logged-Auth & Access-Token & Access-Menu
-    store.commit('users/SET_AUTH', {
+    store.commit("users/SET_AUTH", {
       token: loggedToken,
       user: loggedUser,
-      accessMenus: accessMenus,
-    })
+      accessMenus: accessMenus
+    });
 
     // set All-Menu
-    store.commit('SET_ALL_MENU', allMenus)
+    store.commit("SET_ALL_MENU", allMenus);
 
     // update ability casl
-    store.commit('SET_ABILITY', accessPermission)
+    store.commit("SET_ABILITY", accessPermission);
 
-    next()
+    next();
   } else {
-    next()
+    next();
   }
-})
+});
 
-export default router
+export default router;

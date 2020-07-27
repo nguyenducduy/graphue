@@ -71,7 +71,7 @@
 <script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator";
 import { getVariables, createUrl, initQs } from "@/helper/utils";
-import Pagination from "@/components/LayoutComponents/Pagination/index.vue";
+import Pagination from "@/components/Layout/Pagination/index.vue";
 import { State, Action } from "vuex-class";
 
 @Component({

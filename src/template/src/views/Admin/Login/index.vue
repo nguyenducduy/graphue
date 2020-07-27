@@ -91,7 +91,7 @@
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
 import { Mutation, Getter, Action } from "vuex-class";
-import LanguageSelector from "@/components/LayoutComponents/Topbar/LanguageSelector/index.vue";
+import LanguageSelector from "@/components/Layout/Topbar/LanguageSelector/index.vue";
 
 @Component({
   name: "admin-login-page",

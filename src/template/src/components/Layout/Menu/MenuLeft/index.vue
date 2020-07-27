@@ -78,7 +78,7 @@
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import { Mutation, Getter } from "vuex-class";
 import vueCustomScrollbar from "vue-custom-scrollbar";
-import { find } from "lodash";
+import find from "lodash/find";
 
 @Component({
   name: "menu-left",
