@@ -16,44 +16,44 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
-import Pagination from "@/components/Layout/Pagination/index.vue";
-import Breadcrumbs from "@/components/Layout/Breadcrumbs/index.vue";
-import PermissionItems from "@/components/Admin/Permission/Items/index.vue";
-import PermissionAddDrawer from "@/components/Admin/Permission/Add/index.vue";
-import PermissionEditDrawer from "@/components/Admin/Permission/Edit/index.vue";
+import { Vue, Component } from 'vue-property-decorator'
+import Pagination from '@/components/Layout/Pagination/index.vue'
+import Breadcrumbs from '@/components/Layout/Breadcrumbs/index.vue'
+import PermissionItems from '@/components/Admin/Permission/Items/index.vue'
+import PermissionAddDrawer from '@/components/Admin/Permission/Add/index.vue'
+import PermissionEditDrawer from '@/components/Admin/Permission/Edit/index.vue'
 
 @Component({
-  name: "permission-page",
+  name: 'permission-page',
   components: {
     Pagination,
     Breadcrumbs,
     PermissionItems,
     PermissionAddDrawer,
-    PermissionEditDrawer
-  }
+    PermissionEditDrawer,
+  },
 })
 export default class PermissionPage extends Vue {
   bc: any = [
     {
-      title: "Thành viên",
-      url: "/admin/user",
-      active: false
+      title: this.$t('menu.User'),
+      url: '/admin/user',
+      active: false,
     },
     {
-      title: "Permission",
-      url: "",
-      active: false
+      title: this.$t('menu.Permission'),
+      url: '',
+      active: false,
     },
     {
-      title: "List",
-      url: "",
-      active: true
-    }
-  ];
+      title: this.$t('menu.List'),
+      url: '',
+      active: true,
+    },
+  ]
 }
 </script>
 
 <style lang="scss" module>
-@import "./style.module.scss";
+@import './style.module.scss';
 </style>

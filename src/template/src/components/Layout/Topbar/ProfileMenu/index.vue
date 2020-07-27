@@ -11,10 +11,10 @@
     <a-menu slot="overlay">
       <a-menu-item>
         <div>
-          Xin chào,
+          {{ $t('profilemenu.Hello') }}
           <strong>{{ loggedUser.fullName }}</strong>
           <p class="mt-1">
-            You logged in as
+            {{ $t('profilemenu.LoggedInAs') }}
             <a-tag :color="loggedUser.group.color">
               {{ loggedUser.group.screenName }}
             </a-tag>
@@ -31,12 +31,12 @@
       <a-menu-divider />
       <a-menu-item>
         <a href="javascript: void(0);" @click="$bus.$emit('users.changepassword.show')">
-          <i :class="$style.menuIcon" class="fa fa-key"></i> {{ $t('profile.ChangePassword') }}
+          <i :class="$style.menuIcon" class="fa fa-key"></i> {{ $t('profilemenu.ChangePassword') }}
         </a>
       </a-menu-item>
       <a-menu-item>
         <a href="javascript: void(0);" @click="onLogout">
-          <i :class="$style.menuIcon" class="fa fa-sign-out"></i> {{ $t('profile.Logout') }}
+          <i :class="$style.menuIcon" class="fa fa-sign-out"></i> {{ $t('profilemenu.Logout') }}
         </a>
       </a-menu-item>
     </a-menu>

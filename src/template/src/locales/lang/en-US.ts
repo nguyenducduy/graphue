@@ -8,9 +8,15 @@ const components = {
 }
 
 const locale = {
-  //common
-  'profile.ChangePassword': 'Change password',
-  'profile.Logout': 'Logout',
+  // common
+  'default.search': 'Find in ',
+  'default.refresh': 'Refresh ',
+
+  // profile menu components
+  'profilemenu.Hello': 'Heloo, ',
+  'profilemenu.LoggedInAs': 'Logged in as ',
+  'profilemenu.ChangePassword': 'Change password',
+  'profilemenu.Logout': 'Logout',
 
   // menu
   'menu.Overview': 'Overview',

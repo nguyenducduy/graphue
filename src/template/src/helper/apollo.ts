@@ -4,26 +4,9 @@ import { ApolloClient, ApolloLink, InMemoryCache, HttpLink } from 'apollo-boost'
 import { onError } from 'apollo-link-error'
 import { notification } from 'ant-design-vue'
 
-const getHeaders = () => {
-  const headers = {}
-  const token = window.localStorage['Access-Token']
-  const currentLang = window.localStorage['lang']
-
-  if (token) {
-    headers['Authorization'] = `Bearer ${JSON.parse(token)['value']}`
-  }
-
-  if (currentLang) {
-    const lang = JSON.parse(currentLang)['value'].split('-')[0]
-    headers['Accept-Language'] = lang
-  }
-
-  return headers
-}
-
 // Error Handling
 const errorLink = onError(({ graphQLErrors, networkError }) => {
-  if (graphQLErrors) console.dir(graphQLErrors)
+  // if (graphQLErrors) console.dir(graphQLErrors)
   graphQLErrors.map(({ message, locations, path }) =>
     notification.error({
       message: message,
@@ -42,26 +25,14 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
 const authLink = new ApolloLink((operation, forward) => {
   // Retrieve the authorization token from local storage.
   const token = window.localStorage['Access-Token']
-  if (token) {
-    // Use the setContext method to set the HTTP headers.
-    operation.setContext({
-      headers: {
-        Authorization: `Bearer ${JSON.parse(token)['value']}`,
-      },
-    })
-  }
-
-  // Retrieve language
   const currentLang = window.localStorage['lang']
-  if (currentLang) {
-    const lang = JSON.parse(currentLang)['value'].split('-')[0]
 
-    operation.setContext({
-      headers: {
-        'Accept-Language': lang,
-      },
-    })
-  }
+  operation.setContext({
+    headers: {
+      Authorization: token ? `Bearer ${JSON.parse(token)['value']}` : '',
+      'Accept-Language': currentLang ? JSON.parse(currentLang)['value'].split('-')[0] : 'en',
+    },
+  })
 
   // Call the next link in the middleware chain.
   return forward(operation)
@@ -70,7 +41,6 @@ const authLink = new ApolloLink((operation, forward) => {
 // upload file for apollo
 const uploadLink = createUploadLink({
   uri: `${process.env.VUE_APP_GRAPHQL_URI}`,
-  headers: getHeaders(),
 })
 
 // apollo root link
@@ -82,10 +52,10 @@ export default new ApolloClient({
   connectToDevTools: true,
   defaultOptions: {
     watchQuery: {
-      fetchPolicy: 'network-only',
+      fetchPolicy: 'network-only', // integrate caching later
     },
     query: {
-      fetchPolicy: 'network-only',
+      fetchPolicy: 'network-only', // integrate caching later
     },
   },
 })

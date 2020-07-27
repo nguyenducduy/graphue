@@ -59,6 +59,7 @@ def upgrade():
     sa.Column('avatar', sa.String(length=255), nullable=True),
     sa.Column('email', sa.String(length=255), nullable=False),
     sa.Column('password', sa.String(length=255), nullable=True),
+    sa.Column('status', sa.Integer(), nullable=True),
     sa.Column('oauth_provider', sa.String(length=50), nullable=True),
     sa.Column('oauth_token', sa.String(length=255), nullable=True),
     sa.Column('oauth_refresh_token', sa.String(length=255), nullable=True),

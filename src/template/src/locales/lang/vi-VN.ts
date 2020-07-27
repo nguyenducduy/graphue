@@ -8,9 +8,15 @@ const components = {
 }
 
 const locale = {
-  //common
-  'profile.ChangePassword': 'Đổi mật khẩu',
-  'profile.Logout': 'Thoát',
+  // common
+  'default.search': 'Tìm trong ',
+  'default.refresh': 'Làm mới ',
+
+  // profile menu components
+  'profilemenu.Hello': 'Xin chào, ',
+  'profilemenu.LoggedInAs': 'Đăng nhập quyền ',
+  'profilemenu.ChangePassword': 'Đổi mật khẩu',
+  'profilemenu.Logout': 'Thoát',
 
   // menu
   'menu.Overview': 'Tổng quan',
