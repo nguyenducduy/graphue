@@ -2,17 +2,10 @@
   <a-dropdown :trigger="['click']" placement="bottomLeft">
     <div :class="$style.dropdown">
       <!-- <a-badge :count="99"> -->
-      <a-avatar
-        v-if="loggedUser.avatar !== null"
-        :src="__getAvatar(loggedUser.avatar)"
-        :class="$style.avatar"
-      />
-      <a-avatar
-        v-else
-        :style="`backgroundColor: ${loggedUser.status.color}`"
-        :class="$style.avatar"
-        >{{ loggedUser.fullName[0] }}</a-avatar
-      >
+      <a-avatar v-if="loggedUser.avatar !== null" :src="__getAvatar(loggedUser.avatar)" :class="$style.avatar" />
+      <a-avatar v-else :style="`backgroundColor: ${loggedUser.status.color}`" :class="$style.avatar">{{
+        loggedUser.fullName[0]
+      }}</a-avatar>
       <!-- </a-badge> -->
     </div>
     <a-menu slot="overlay">
@@ -37,16 +30,13 @@
       </a-menu-item>
       <a-menu-divider />
       <a-menu-item>
-        <a
-          href="javascript: void(0);"
-          @click="$bus.$emit('users.changepassword.show')"
-        >
-          <i :class="$style.menuIcon" class="fa fa-key"></i> Đổi mật khẩu
+        <a href="javascript: void(0);" @click="$bus.$emit('users.changepassword.show')">
+          <i :class="$style.menuIcon" class="fa fa-key"></i> {{ $t('profile.ChangePassword') }}
         </a>
       </a-menu-item>
       <a-menu-item>
         <a href="javascript: void(0);" @click="onLogout">
-          <i :class="$style.menuIcon" class="fa fa-sign-out"></i> Đăng xuất
+          <i :class="$style.menuIcon" class="fa fa-sign-out"></i> {{ $t('profile.Logout') }}
         </a>
       </a-menu-item>
     </a-menu>
@@ -54,40 +44,40 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
-import { GET_USER, LOGOUT_USER } from "@/graphql/users";
-import { Action, Getter } from "vuex-class";
+import { Vue, Component } from 'vue-property-decorator'
+import { GET_USER, LOGOUT_USER } from '@/graphql/users'
+import { Action, Getter } from 'vuex-class'
 
 @Component({
-  name: "profile-menu"
+  name: 'profile-menu',
 })
 export default class ProfileMenu extends Vue {
-  @Action("users/logOut") logOut;
-  @Getter("users/loggedUser") loggedUser;
+  @Action('users/logOut') logOut
+  @Getter('users/loggedUser') loggedUser
 
   async onLogout() {
-    this.$nprogress.start();
+    this.$nprogress.start()
 
     try {
-      await this.logOut();
+      await this.logOut()
 
       return (window.location.href = `
           ${window.location.protocol}//${window.location.hostname +
-        (window.location.port ? ":" + window.location.port : "")}/admin
-        `);
+        (window.location.port ? ':' + window.location.port : '')}/admin
+        `)
 
-      this.$nprogress.done();
+      this.$nprogress.done()
     } catch (error) {
-      this.$nprogress.done();
+      this.$nprogress.done()
     }
   }
 
   mounted() {
-    const self = this;
+    const self = this
   }
 
   __getAvatar(url) {
-    return process.env.VUE_APP_SOCKETIO_URI + "/upload/avatars/" + url;
+    return process.env.VUE_APP_SOCKETIO_URI + '/upload/avatars/' + url
   }
 }
 </script>
@@ -99,5 +89,5 @@ export default class ProfileMenu extends Vue {
 </style>
 
 <style lang="scss" module>
-@import "./style.module.scss";
+@import './style.module.scss';
 </style>
