@@ -29,7 +29,6 @@ const locale = {
 
   // login page
   'views.login.SignIn': 'SignIn',
-  'views.login.ToGraphue': 'to Graphue',
   'views.login.Email': 'Email',
   'views.login.Password': 'Password',
   'views.login.EmailIsRequired': 'Please input your email!',

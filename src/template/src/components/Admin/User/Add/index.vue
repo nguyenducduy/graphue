@@ -1,9 +1,7 @@
 <template>
   <div>
     <Can I="createUser">
-      <a-button type="primary" icon="plus" @click="visible = true"
-        >Thêm</a-button
-      >
+      <a-button type="primary" icon="plus" @click="onShow">Thêm</a-button>
       <a-drawer
         title="Thêm thành viên"
         placement="right"
@@ -18,6 +16,7 @@
                 <div class="col-lg-6">
                   <a-form-item label="Họ và tên">
                     <a-input
+                      ref="fullNameInput"
                       v-decorator="[
                         'fullName',
                         {
@@ -116,9 +115,7 @@
                         v-for="group in groupItems"
                         :value="group.node.id"
                         :key="group.node.id"
-                      >
-                        {{ group.node.screenName }}
-                      </a-select-option>
+                      >{{ group.node.screenName }}</a-select-option>
                     </a-select>
                   </a-form-item>
                 </div>
@@ -142,9 +139,7 @@
                         v-for="status in statusItems"
                         :value="status.value"
                         :key="status.value"
-                      >
-                        {{ status.text }}
-                      </a-select-option>
+                      >{{ status.text }}</a-select-option>
                     </a-select>
                   </a-form-item>
                 </div>
@@ -162,8 +157,7 @@
             @click="onSubmit"
             :loading="loading"
             :disabled="hasErrors(form.getFieldsError())"
-            >Save</a-button
-          >
+          >Save</a-button>
         </div>
       </a-drawer>
     </Can>
@@ -195,6 +189,17 @@ export default class UserAdd extends Vue {
   hasErrors: any = hasErrors;
   confirmDirty: boolean = false;
   groupList: any = [];
+  $refs: {
+    fullNameInput: HTMLFormElement;
+  };
+
+  onShow() {
+    this.visible = true;
+
+    this.$nextTick(() => {
+      this.$refs.fullNameInput.focus();
+    });
+  }
 
   onSubmit(e) {
     e.preventDefault();
@@ -219,7 +224,7 @@ export default class UserAdd extends Vue {
 
           this.form.resetFields();
           this.loading = false;
-          this.visible = false;
+          this.$refs.fullNameInput.focus();
           this.$bus.$emit("users.refresh");
         } catch (error) {
           this.loading = false;

@@ -1,9 +1,7 @@
 <template>
   <div>
     <Can I="createPermission">
-      <a-button type="primary" icon="plus" @click="visible = true"
-        >Thêm</a-button
-      >
+      <a-button type="primary" icon="plus" @click="onShow">Thêm</a-button>
       <a-drawer
         title="Thêm quyền"
         placement="right"
@@ -18,6 +16,7 @@
                 <div class="col-lg-12">
                   <a-form-item label="Tên (Query/Mutation)">
                     <a-input
+                      ref="nameInput"
                       placeholder="ex: userList, createUser"
                       v-decorator="[
                         'name',
@@ -65,8 +64,7 @@
             @click="onSubmit"
             :loading="loading"
             :disabled="hasErrors(form.getFieldsError())"
-            >Save</a-button
-          >
+          >Save</a-button>
         </div>
       </a-drawer>
     </Can>
@@ -88,6 +86,17 @@ export default class PermissionAdd extends Vue {
   form: any = {};
   loading: boolean = false;
   hasErrors: any = hasErrors;
+  $refs: {
+    nameInput: HTMLFormElement;
+  };
+
+  onShow() {
+    this.visible = true;
+
+    this.$nextTick(() => {
+      this.$refs.nameInput.focus();
+    });
+  }
 
   onSubmit(e) {
     e.preventDefault();
@@ -109,6 +118,7 @@ export default class PermissionAdd extends Vue {
 
           this.form.resetFields();
           this.loading = false;
+          this.$refs.nameInput.focus();
           this.$bus.$emit("permissions.refresh");
         } catch (error) {
           this.loading = false;

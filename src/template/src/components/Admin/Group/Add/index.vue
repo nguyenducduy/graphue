@@ -1,9 +1,7 @@
 <template>
   <div>
     <Can I="createGroup">
-      <a-button type="primary" icon="plus" @click="visible = true"
-        >Thêm</a-button
-      >
+      <a-button type="primary" icon="plus" @click="onShow">Thêm</a-button>
       <a-drawer
         title="Thêm nhóm"
         placement="right"
@@ -18,6 +16,7 @@
                 <div class="col-lg-12">
                   <a-form-item label="Tên (giá trị)">
                     <a-input
+                      ref="nameInput"
                       placeholder="ex: admin"
                       v-decorator="[
                         'name',
@@ -53,10 +52,7 @@
                 </div>
                 <div class="col-lg-12">
                   <a-form-item label="Màu thể hiện (hex, rgb, plain)">
-                    <a-input
-                      placeholder="ex: #fafafa, or blue/red"
-                      v-decorator="['color']"
-                    />
+                    <a-input placeholder="ex: #fafafa, or blue/red" v-decorator="['color']" />
                   </a-form-item>
                 </div>
               </div>
@@ -73,8 +69,7 @@
             @click="onSubmit"
             :loading="loading"
             :disabled="hasErrors(form.getFieldsError())"
-            >Save</a-button
-          >
+          >Save</a-button>
         </div>
       </a-drawer>
     </Can>
@@ -96,6 +91,17 @@ export default class GroupAdd extends Vue {
   form: any = {};
   loading: boolean = false;
   hasErrors: any = hasErrors;
+  $refs: {
+    nameInput: HTMLFormElement;
+  };
+
+  onShow() {
+    this.visible = true;
+
+    this.$nextTick(() => {
+      this.$refs.nameInput.focus();
+    });
+  }
 
   onSubmit(e) {
     e.preventDefault();
@@ -118,6 +124,7 @@ export default class GroupAdd extends Vue {
 
           this.form.resetFields();
           this.loading = false;
+          this.$refs.nameInput.focus();
           this.$bus.$emit("groups.refresh");
         } catch (error) {
           this.loading = false;

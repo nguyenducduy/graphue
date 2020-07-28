@@ -29,7 +29,6 @@ const locale = {
 
   // login page
   'views.login.SignIn': 'Đăng nhập',
-  'views.login.ToGraphue': 'hệ quản trị',
   'views.login.Email': 'Email',
   'views.login.Password': 'Mật khẩu',
   'views.login.EmailIsRequired': 'Vui lòng nhập email!',
