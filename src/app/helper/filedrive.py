@@ -2,6 +2,7 @@ import os
 from datetime import datetime
 from werkzeug.utils import secure_filename
 import urllib.request
+import shutil
 
 basedir = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 upload_dir = os.path.join(basedir, 'upload')

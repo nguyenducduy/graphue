@@ -19,7 +19,6 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
-import Pagination from "@/components/Layout/Pagination/index.vue";
 import Breadcrumbs from "@/components/Layout/Breadcrumbs/index.vue";
 import GroupItems from "@/components/Admin/Group/Items/index.vue";
 import GroupAddDrawer from "@/components/Admin/Group/Add/index.vue";
@@ -30,7 +29,6 @@ import AssignMenuDrawer from "@/components/Admin/Menu/Assign/index.vue";
 @Component({
   name: "group-page",
   components: {
-    Pagination,
     Breadcrumbs,
     GroupItems,
     GroupAddDrawer,

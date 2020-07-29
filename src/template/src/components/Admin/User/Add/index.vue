@@ -167,14 +167,10 @@
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
 import { Action, State } from "vuex-class";
-import { Drawer } from "ant-design-vue";
 import { hasErrors } from "@/helper/utils";
 
 @Component({
-  name: "user-add-drawer",
-  components: {
-    Drawer
-  }
+  name: "user-add-drawer"
 })
 export default class UserAdd extends Vue {
   @Action("users/create") create;

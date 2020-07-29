@@ -20,6 +20,7 @@
                 <div class="col-lg-12">
                   <a-form-item label="Name">
                     <a-input
+                      ref="nameInput"
                       v-decorator="[
                         'name',
                         {
@@ -57,8 +58,7 @@
             @click="onSubmit"
             :loading="loading"
             :disabled="hasErrors(form.getFieldsError())"
-            >Save</a-button
-          >
+          >Save</a-button>
         </div>
       </a-drawer>
     </Can>
@@ -80,6 +80,9 @@ export default class MenuAdd extends Vue {
   form: any = {};
   loading: boolean = false;
   hasErrors: any = hasErrors;
+  $refs: {
+    nameInput: HTMLFormElement;
+  };
 
   parentId: number = 0;
   parentTitle: number = 0;
@@ -130,6 +133,9 @@ export default class MenuAdd extends Vue {
       this.parentId = parentId;
       this.parentTitle = parentTitle;
       this.visible = true;
+      this.$nextTick(() => {
+        this.$refs.nameInput.focus();
+      });
     });
 
     this.$bus.$on("menus.create.close", () => {

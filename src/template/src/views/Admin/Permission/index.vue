@@ -17,7 +17,6 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
-import Pagination from "@/components/Layout/Pagination/index.vue";
 import Breadcrumbs from "@/components/Layout/Breadcrumbs/index.vue";
 import PermissionItems from "@/components/Admin/Permission/Items/index.vue";
 import PermissionAddDrawer from "@/components/Admin/Permission/Add/index.vue";
@@ -26,7 +25,6 @@ import PermissionEditDrawer from "@/components/Admin/Permission/Edit/index.vue";
 @Component({
   name: "permission-page",
   components: {
-    Pagination,
     Breadcrumbs,
     PermissionItems,
     PermissionAddDrawer,

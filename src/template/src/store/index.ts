@@ -1,13 +1,13 @@
 import Vue from "vue";
 import Vuex from "vuex";
 import { Ability, AbilityBuilder } from "@casl/ability";
+import { loadLanguageAsync } from "@/locales";
 import abilityPlugin from "./ability";
 import settings from "./modules/settings";
 import users from "./modules/users";
 import permissions from "./modules/permissions";
 import groups from "./modules/groups";
 import menus from "./modules/menus";
-import { loadLanguageAsync } from "@/locales";
 
 // casl
 const TYPE_KEY = Symbol("resourceType");

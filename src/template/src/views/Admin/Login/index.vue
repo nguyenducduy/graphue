@@ -4,13 +4,12 @@
       <div class="row">
         <div class="col-lg-12">
           <div :class="$style.inner">
-            <h3 class="text-5xl mb-3">
-              {{ $t("views.login.SignIn") }}
-            </h3>
+            <h3 class="text-5xl mb-3">{{ $t("views.login.SignIn") }}</h3>
             <div :class="$style.form">
               <a-form class="login-form" :form="form" @submit="onSubmit">
                 <a-form-item :label="$t('views.login.Email')">
                   <a-input
+                    ref="emailInput"
                     :placeholder="$t('views.login.Email')"
                     v-decorator="[
                       'email',
@@ -24,11 +23,7 @@
                       }
                     ]"
                   >
-                    <a-icon
-                      slot="prefix"
-                      type="user"
-                      style="color: rgba(0,0,0,.25);"
-                    />
+                    <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25);" />
                   </a-input>
                 </a-form-item>
                 <a-form-item :label="$t('views.login.Password')">
@@ -47,17 +42,15 @@
                       }
                     ]"
                   >
-                    <a-icon
-                      slot="prefix"
-                      type="lock"
-                      style="color: rgba(0,0,0,.25);"
-                    />
+                    <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25);" />
                   </a-input>
                 </a-form-item>
                 <div class="text-right">
-                  <a-button type="link">{{
+                  <a-button type="link">
+                    {{
                     $t("views.login.ForgotPassword")
-                  }}</a-button>
+                    }}
+                  </a-button>
                 </div>
                 <div class="form-actions">
                   <a-button
@@ -65,16 +58,14 @@
                     htmlType="submit"
                     class="login-form-button width-150"
                     :loading="loading"
-                    >{{ $t("views.login.SignIn") }}</a-button
-                  >
+                  >{{ $t("views.login.SignIn") }}</a-button>
                   <a-button
                     class="float-right"
                     type="dashed"
                     icon="google"
                     :loading="loading"
                     @click.prevent="onGoogleSignin('google')"
-                    >{{ $t("views.login.SignInWithGoogle") }}</a-button
-                  >
+                  >{{ $t("views.login.SignInWithGoogle") }}</a-button>
                 </div>
               </a-form>
             </div>
@@ -106,6 +97,9 @@ export default class AdminLogin extends Vue {
 
   form: any = {};
   loading: boolean = false;
+  $refs: {
+    emailInput: HTMLFormElement;
+  };
 
   created() {
     if (this.isAuth) {
@@ -156,6 +150,12 @@ export default class AdminLogin extends Vue {
           this.loading = false;
         }
       }
+    });
+  }
+
+  mounted() {
+    this.$nextTick(() => {
+      this.$refs.emailInput.focus();
     });
   }
 }

@@ -1,8 +1,5 @@
 const path = require("path");
 const webpack = require("webpack");
-const GitRevisionPlugin = require("git-revision-webpack-plugin");
-const GitRevision = new GitRevisionPlugin();
-const buildDate = JSON.stringify(new Date().toLocaleString());
 const antdTheme = require("./src/theme.js");
 
 function resolve(dir) {
@@ -44,12 +41,7 @@ module.exports = {
     },
     plugins: [
       // Ignore all locale files of moment.js
-      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-      new webpack.DefinePlugin({
-        APP_VERSION: `"${require("./package.json").version}"`,
-        GIT_HASH: JSON.stringify(GitRevision.version()),
-        BUILD_DATE: buildDate
-      })
+      new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/)
     ],
     // if prod, add externals
     externals: isProd ? assetsCDN.externals : {}
