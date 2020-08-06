@@ -115,7 +115,8 @@
                         v-for="group in groupItems"
                         :value="group.node.id"
                         :key="group.node.id"
-                      >{{ group.node.screenName }}</a-select-option>
+                        >{{ group.node.screenName }}</a-select-option
+                      >
                     </a-select>
                   </a-form-item>
                 </div>
@@ -139,7 +140,8 @@
                         v-for="status in statusItems"
                         :value="status.value"
                         :key="status.value"
-                      >{{ status.text }}</a-select-option>
+                        >{{ status.text }}</a-select-option
+                      >
                     </a-select>
                   </a-form-item>
                 </div>
@@ -157,7 +159,8 @@
             @click="onSubmit"
             :loading="loading"
             :disabled="hasErrors(form.getFieldsError())"
-          >Save</a-button>
+            >Save</a-button
+          >
         </div>
       </a-drawer>
     </Can>

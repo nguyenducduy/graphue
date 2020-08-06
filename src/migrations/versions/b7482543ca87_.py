@@ -83,7 +83,7 @@ def upgrade():
     )
     op.create_table('user',
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
-    sa.Column('full_name', sa.String(length=50), nullable=True),
+    sa.Column('full_name', sa.String(length=255), nullable=True),
     sa.Column('avatar', sa.String(length=255), nullable=True),
     sa.Column('email', sa.String(length=255), nullable=False),
     sa.Column('password', sa.String(length=255), nullable=True),

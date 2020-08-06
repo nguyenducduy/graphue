@@ -18,8 +18,9 @@
             </template>
           </a-alert>
         </div>
-        <div class="col-lg-3">
+        <div class="col-lg-3" style="height: 100vh">
           <a-tree
+            style="height: 100%"
             v-contextmenu:contextMenuContainer
             class="box-white mt-2"
             :blockNode="true"

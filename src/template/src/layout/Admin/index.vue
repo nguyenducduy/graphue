@@ -4,7 +4,6 @@
       theme="light"
       v-if="!settings.isMobileView"
       :width="256"
-      collapsible
       :collapsed="settings.isMenuCollapsed"
       @collapse="onCollapse"
     >

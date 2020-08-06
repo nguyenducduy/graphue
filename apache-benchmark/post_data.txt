@@ -1,1 +1,0 @@
-{"query":"{\n  getGroup(id: 10) {\n    id\n    name\n    screenName\n    color\n    createdAt\n    menus {\n      name\n    }\n  }\n}\n"}

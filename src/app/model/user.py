@@ -14,9 +14,9 @@ class User(db.Model):
     __tablename__ = 'user'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    full_name = Column(String(50))
+    full_name = Column(String(255))
     avatar = Column(String(255))
-    email = Column(String(255), unique=True, nullable=False, index=True)
+    email = Column(String(100), unique=True, nullable=False, index=True)
     password = Column(String(255), index=True)
     oauth_provider = Column(String(50))
     oauth_token = Column(String(255))

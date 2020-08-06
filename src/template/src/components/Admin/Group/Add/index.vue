@@ -52,7 +52,10 @@
                 </div>
                 <div class="col-lg-12">
                   <a-form-item label="Màu thể hiện (hex, rgb, plain)">
-                    <a-input placeholder="ex: #fafafa, or blue/red" v-decorator="['color']" />
+                    <a-input
+                      placeholder="ex: #fafafa, or blue/red"
+                      v-decorator="['color']"
+                    />
                   </a-form-item>
                 </div>
               </div>
@@ -69,7 +72,8 @@
             @click="onSubmit"
             :loading="loading"
             :disabled="hasErrors(form.getFieldsError())"
-          >Save</a-button>
+            >Save</a-button
+          >
         </div>
       </a-drawer>
     </Can>

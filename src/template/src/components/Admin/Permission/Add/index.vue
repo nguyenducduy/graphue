@@ -64,7 +64,8 @@
             @click="onSubmit"
             :loading="loading"
             :disabled="hasErrors(form.getFieldsError())"
-          >Save</a-button>
+            >Save</a-button
+          >
         </div>
       </a-drawer>
     </Can>
