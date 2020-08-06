@@ -1,2 +1,6 @@
 * linguist-vendored
 *.vue linguist-vendored=false
+*.css linguist-detectable=false
+*.js linguist-detectable=true
+*.ts linguist-detectable=true
+*.py linguist-detectable=true
