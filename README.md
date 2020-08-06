@@ -1,126 +1,19 @@
-### graphene starter
+# CMS starter kit (Boilerplate) sử dụng Flask và Vue
 
-# Tested version
+Source code sử dụng Flask framwork cho Backend server và Vue framework để build UI. Giao thức giao tiếp giữa client và server chủ yếu sử dụng GraphQL.
 
-- python 3.6.10
-- node 12
+![Introdution](docs/_media/intro_ss.png)
 
-# Installation
+## Features
 
-- Install requirement component
-
-```
-git clone ...
-cd sr
-pyenv install 3.6.10
-pyenv virtualenv 3.6.10 graphue
-pyenv local graphue
-pip install -r requirements.txt
-```
-
-- Migrate db
-
-```
-flask db upgrade
-```
-
-- Start backend server
-
-```
-FLASK_ENV=development python manage.py
-```
-
-- Start frontend server
-
-```
-cd src/template
-yarn
-yarn serve
-```
-
-- Enter site
-
-```
-http://localhost:8080/install
-```
-
-# GraphQL endpoint
-
-```
-http://localhost:5000/graphql
-```
-
-# REST endpoint
-
-```
-http://localhost:5000/rest
-```
-
-# Start dev
-
-```
-cd src
-FLASK_ENV=development python manage.py
-```
-
-### Generate Graphql api documentation
-
-```
-yarn add graphdoc
-graphdoc -f -e http://localhost:5000/graphql -o ./docs/schema
-```
-
-### Flask i18n with flask-babel
-
-- Load all language variable
-
-```
-cd src
-pybabel extract -F babel.cfg -o messages.pot .
-```
-
-- Create translation files
-
-```
-cd src
-pybabel init -i messages.pot -d app/language -l en
-```
-
-- Update translation files
-
-```
-cd src
-pybabel update -i messages.pot -d app/language
-```
-
-- Compile translation files to take effect
-
-```
-cd src
-pybabel compile -d app/translations
-```
-
-- All in one line
-
-```
-pybabel extract -F babel.cfg -o messages.pot . && pybabel update -i messages.pot -d app/translations && pybabel compile -d app/translations
-```
-
-### AB test
-
-```
-cd apache-benchmark
-ab -p post_data.txt -T application/json -H 'authorization: Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2MjYyNDcyNzQsImlhdCI6MTU5NDcxMTI2OSwic3ViIjoxfQ.YGgjKzRpP4U4iwK-j5i0GAeYgzxArjZimOnKEglYYMg' -c 10 -n 100 http://localhost:5000/graphql
-```
-
-### cli
-
-```
-FLASK_APP=manage.py flask db
-```
-
-## remove all python cache file
-
-```
-find . | grep -E "(__pycache__|\.pyc|\.pyo$)" | xargs rm -rf
-```
+- Xác thực và phân quyền trên cả Backend và Frontend sử dụng JWT token và ACL
+- Đa ngôn ngữ trên cả Backend và Frontend
+- Google login API
+- Realtime cập nhật Navigation menu cho từng nhóm thành viên
+- Realtime cập nhật Quyền cho từng nhóm thành viên
+- Socketio ready
+- Redis ready
+- GraphQL ready
+- RESTful ready
+- Frontend multi layout
+- Phân quyền Frontend sử dụng CASL
