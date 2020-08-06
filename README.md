@@ -4,6 +4,8 @@ Source code sử dụng Flask framwork cho Backend server và Vue framework đ�
 
 ![Introdution](docs/_media/intro_ss.png)
 
+## [Documentation](http://nguyenducduy.github.io/graphue)
+
 ## Features
 
 - Xác thực và phân quyền trên cả Backend và Frontend sử dụng JWT token và ACL
