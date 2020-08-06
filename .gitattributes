@@ -4,3 +4,4 @@
 *.js linguist-detectable=true
 *.ts linguist-detectable=true
 *.py linguist-detectable=true
+docs/* linguist-documentation
