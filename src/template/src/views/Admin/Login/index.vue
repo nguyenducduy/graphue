@@ -23,11 +23,7 @@
                       }
                     ]"
                   >
-                    <a-icon
-                      slot="prefix"
-                      type="user"
-                      style="color: rgba(0,0,0,.25);"
-                    />
+                    <a-icon slot="prefix" type="user" style="color: rgba(0,0,0,.25);" />
                   </a-input>
                 </a-form-item>
                 <a-form-item :label="$t('views.login.Password')">
@@ -46,17 +42,11 @@
                       }
                     ]"
                   >
-                    <a-icon
-                      slot="prefix"
-                      type="lock"
-                      style="color: rgba(0,0,0,.25);"
-                    />
+                    <a-icon slot="prefix" type="lock" style="color: rgba(0,0,0,.25);" />
                   </a-input>
                 </a-form-item>
                 <div class="text-right">
-                  <a-button type="link">
-                    {{ $t("views.login.ForgotPassword") }}
-                  </a-button>
+                  <a-button type="link">{{ $t("views.login.ForgotPassword") }}</a-button>
                 </div>
                 <div class="form-actions">
                   <a-button
@@ -64,16 +54,14 @@
                     htmlType="submit"
                     class="login-form-button width-150"
                     :loading="loading"
-                    >{{ $t("views.login.SignIn") }}</a-button
-                  >
+                  >{{ $t("views.login.SignIn") }}</a-button>
                   <a-button
                     class="float-right"
                     type="dashed"
                     icon="google"
                     :loading="loading"
                     @click.prevent="onGoogleSignin('google')"
-                    >{{ $t("views.login.SignInWithGoogle") }}</a-button
-                  >
+                  >{{ $t("views.login.SignInWithGoogle") }}</a-button>
                 </div>
               </a-form>
             </div>

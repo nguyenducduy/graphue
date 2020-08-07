@@ -1,0 +1,51 @@
+version: '3.7'
+services:
+  db:
+    image: 'mysql:8.0.19'
+    volumes:
+      - './db/data:/var/lib/mysql'
+    command: '--default-authentication-plugin=mysql_native_password'
+    restart: always
+    secrets:
+      - db-password
+    networks:
+      - backend-network
+    environment:
+      - MYSQL_DATABASE=graphue
+      - MYSQL_USER=root
+      - MYSQL_ROOT_PASSWORD_FILE=/run/secrets/db-password
+  api:
+    build:
+      context: ./src
+      target: develop-stage
+    container_name: api
+    restart: always
+    ports:
+      - '5000:5000'
+    volumes:
+      - './src/:/src'
+    command: /bin/sh -c "FLASK_ENV=development python manage.py"
+    networks:
+      - backend-network
+      - frontend-network
+  ui:
+    build:
+      context: ./src/template
+      target: develop-stage
+    container_name: ui
+    restart: always
+    ports:
+      - '8080:8080'
+    volumes:
+      - './src/template:/template'
+    command: /bin/sh -c "yarn serve"
+    networks:
+      - frontend-network
+volumes:
+  db: null
+secrets:
+  db-password:
+    file: db/password.txt
+networks:
+  backend-network: null
+  frontend-network: null
