@@ -1,0 +1,14 @@
+version: '3.7'
+services:
+  api:
+    image: 'graphue_api'
+    build:
+      context: ./src
+      dockerfile: Dockerfile
+      target: production-stage
+  ui:
+    image: 'graphue_ui'
+    build:
+      context: ./src/template
+      dockerfile: Dockerfile
+      target: production-stage

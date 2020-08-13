@@ -32,7 +32,7 @@ export default class App extends Vue {
 
   @Socket()
   connect() {
-    console.log("Socket connected...");
+    // console.log("Socket connected...");
     if (this.isAuth) {
       this.$socket.client.emit(
         "check_menu_permission_change",
@@ -70,6 +70,8 @@ export default class App extends Vue {
 </script>
 
 <style lang="scss">
+@import "bootstrap-css-only/css/bootstrap.min.css";
+
 #app {
   height: 100%;
 }
