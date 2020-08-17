@@ -2,6 +2,7 @@
 FROM node:12.14.0-alpine as develop-stage
 WORKDIR /template
 COPY package*.json ./
+RUN yarn global add @vue/cli
 RUN yarn
 ADD . .
 
@@ -9,6 +10,7 @@ ADD . .
 FROM node:12.14.0-alpine as build-stage
 WORKDIR /template
 COPY package*.json ./
+RUN yarn global add @vue/cli
 RUN yarn
 COPY . .
 RUN yarn build
