@@ -75,7 +75,7 @@ pytzdata==2019.3
 redis==3.5.3
 regex==2020.6.8
 requests==2.23.0
-rsa==4.6
+rsa==4.7
 Rx==1.6.1
 setproctitle==1.1.10
 singledispatch==3.4.0.3
